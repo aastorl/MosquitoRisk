@@ -5,6 +5,8 @@
 //  Created by Astor Ludueña  on 05/05/2025.
 //
 
+// Deprecated
+
 import Foundation
 import CoreLocation
 import Combine

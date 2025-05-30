@@ -12,6 +12,7 @@ struct WeatherData: Identifiable, Equatable {
     let temperature: Double
     let humidity: Double
     let condition: String // "Sunny", "Cloudy", etc.
-
+    let precipitation: Double
+    let windSpeed: Double
 }
 

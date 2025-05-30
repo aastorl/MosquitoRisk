@@ -2,67 +2,133 @@
 //  HomeView+Preview.swift
 //  MosquitOFF
 //
-//  Created by Astor Ludueña on 06/05/2025.
-//
+//  Created by Astor Ludueña on 06/05/2025.//
 
 import SwiftUI
+import MapKit
 
 struct MockHomeView: View {
-    let mockWeather = WeatherData(temperature: 30, humidity: 80, condition: "Cloudy")
+    let mockWeather = WeatherData(
+        temperature: 23,     // dentro del rango medium
+            humidity: 100,        // dentro del rango medium
+            condition: "Cloudy",
+            precipitation: 10,
+            windSpeed: 10        // suficientemente bajo para no reducir el riesgo
+    )
+    
+    @State private var showMosquitoes = false
 
     var body: some View {
-        ZStack {
-            backgroundImageForCondition(mockWeather.condition)
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-                .blur(radius: 6)
+        NavigationStack {
+            GeometryReader { geo in
+                ZStack {
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.cyan.opacity(0.6)]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    .ignoresSafeArea()
 
-            MosquitoAnimationView(risk: mosquitoRisk(for: mockWeather))
+                    let riskLevel = MosquitoRisk.calculateRisk(from: mockWeather)
+                    if showMosquitoes && riskLevel != .low {
+                        MosquitoAnimationView(riskLevel: riskLevel)
+                            .transition(.opacity)
+                    }
 
-            VStack(spacing: 20) {
-                Text("🦟 MosquitOFF")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding()
+                    VStack(spacing: 25) {
+                        Text("MosquitOFF")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(.top, 50)
 
-                Text("🌡 Temp: \(mockWeather.temperature, specifier: "%.1f")°C")
-                    .foregroundColor(.white)
-                    .font(.title2)
+                        Spacer()
+                        
+                        VStack(spacing: 8) {
+                            Text("Mosquito Risk")
+                                .foregroundColor(.white.opacity(0.8))
+                                .font(.headline)
+                            Text(riskLevel.rawValue)
+                                .font(.system(size: 64, weight: .thin))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.top, -20)
 
-                Text("💧 Humidity: \(mockWeather.humidity, specifier: "%.0f")%")
-                    .foregroundColor(.white)
-                    .font(.title2)
+                        LazyVGrid(columns: [GridItem(), GridItem()], spacing: 8) {
+                            WeatherInfoCard(icon: "thermometer", label: "Temp", value: "\(Int(mockWeather.temperature))°")
+                            WeatherInfoCard(icon: "drop.fill", label: "Humidity", value: "\(Int(mockWeather.humidity))%")
+                            WeatherInfoCard(icon: "cloud.rain.fill", label: "Rain", value: "\(String(format: "%.1f", mockWeather.precipitation)) mm")
+                            WeatherInfoCard(icon: "wind", label: "Wind", value: "\(String(format: "%.1f", mockWeather.windSpeed)) km/h")
+                        }
+                        .padding(.horizontal)
 
-                Text("☁️ Condition: \(mockWeather.condition)")
-                    .foregroundColor(.white)
-                    .font(.title2)
+                        NavigationLink {
+                            HeatMapView()
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 32)
+                                    .fill(Color.blue.opacity(0.2))
+                                    .background(.ultraThinMaterial)
+                                    .clipShape(RoundedRectangle(cornerRadius: 32))
+                                VStack(spacing: 6) {
+                                    Image(systemName: "map.fill")
+                                        .font(.title)
+                                        .foregroundColor(.white)
+                                    Text("View Mosquito Heatmap")
+                                        .font(.headline)
+                                        .foregroundColor(.white.opacity(0.9))
+                                }
+                            }
+                            .frame(height: 220)
+                            .padding(.horizontal)
+                        }
 
-                Text("🦟 Mosquito Risk: \(mosquitoRisk(for: mockWeather))")
-                    .bold()
-                    .foregroundColor(.white)
-                    .font(.title2)
+                        Spacer()
+                    }
+                    .frame(width: geo.size.width)
+                }
+                .onAppear {
+                    let riskLevel = MosquitoRisk.calculateRisk(from: mockWeather)
+                    if riskLevel != .low {
+                        withAnimation(.easeIn(duration: 1.0)) {
+                            showMosquitoes = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                            withAnimation {
+                                showMosquitoes = false
+                            }
+                        }
+                    }
+                }
             }
-            .padding()
         }
     }
+}
 
-    func mosquitoRisk(for data: WeatherData) -> String {
-        switch (data.temperature, data.humidity) {
-        case (25...40, 60...100): return "High"
-        case (20..<25, 40..<60): return "Medium"
-        default: return "Low"
-        }
-    }
+struct WeatherInfoCard: View {
+    let icon: String
+    let label: String
+    let value: String
 
-    func backgroundImageForCondition(_ condition: String) -> Image {
-        switch condition.lowercased() {
-        case "sunny": return Image("sunny_bg")
-        case "cloudy": return Image("cloudy_bg")
-        case "rainy": return Image("rainy_bg")
-        default: return Image("sunny_bg")
+    var body: some View {
+        VStack(spacing: 6) {
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundColor(.white)
+
+            Text(label)
+                .font(.caption)
+                .foregroundColor(.white.opacity(0.7))
+
+            Text(value)
+                .font(.headline)
+                .foregroundColor(.white)
         }
+        .frame(maxWidth: .infinity, maxHeight: 120)
+        .padding()
+        .background(.ultraThinMaterial)
+        .background(Color.blue.opacity(0.2))
+        .cornerRadius(16)
     }
 }
 
@@ -70,52 +136,19 @@ struct MockHomeView: View {
     MockHomeView()
 }
 
-// MARK: - Mosquito Animation View
 
-struct MosquitoAnimationView: View {
-    let count: Int
 
-    init(risk: String) {
-        switch risk {
-        case "High": self.count = 30
-        case "Medium": self.count = 15
-        default: self.count = 5
-        }
-    }
 
-    var body: some View {
-        ZStack {
-            ForEach(0..<count, id: \.self) { _ in
-                Mosquito()
-            }
-        }
-    }
-}
 
-struct Mosquito: View {
-    @State private var x: CGFloat = CGFloat.random(in: 0...UIScreen.main.bounds.width)
-    @State private var y: CGFloat = CGFloat.random(in: 0...UIScreen.main.bounds.height)
 
-    var body: some View {
-        Text("🦟")
-            .font(.title2)
-            .opacity(0.5)
-            .position(x: x, y: y)
-            .onAppear {
-                withAnimation(
-                    Animation.linear(duration: Double.random(in: 3...6))
-                        .repeatForever(autoreverses: true)
-                ) {
-                    x = CGFloat.random(in: 0...UIScreen.main.bounds.width)
-                    y = CGFloat.random(in: 0...UIScreen.main.bounds.height)
-                }
-            }
-    }
-}
 
-#Preview("Mosquito Animation") {
-    MosquitoAnimationView(risk: "High")
-}
+
+
+
+
+
+
+
 
 
 

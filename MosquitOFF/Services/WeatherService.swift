@@ -25,10 +25,15 @@ class WeatherService {
             if let data = data {
                 do {
                     let decoded = try JSONDecoder().decode(OpenWeatherResponse.self, from: data)
+
+                    let precipitation = decoded.rain?.lastHour ?? 0.0
+
                     let weather = WeatherData(
                         temperature: decoded.main.temp,
                         humidity: decoded.main.humidity,
-                        condition: decoded.weather.first?.main ?? "Desconocido"
+                        condition: decoded.weather.first?.main ?? "Desconocido",
+                        precipitation: precipitation,
+                        windSpeed: decoded.wind?.speed ?? 0.0
                     )
                     DispatchQueue.main.async {
                         completion(weather)
@@ -44,4 +49,34 @@ class WeatherService {
         }.resume()
     }
 }
+
+// MARK: - API Response Struct
+
+struct OpenWeatherResponse: Decodable {
+    let main: Main
+    let weather: [Weather]
+    let rain: Rain?
+    let wind: Wind?
+
+    struct Main: Decodable {
+        let temp: Double
+        let humidity: Double
+    }
+
+    struct Weather: Decodable {
+        let main: String
+    }
+
+    struct Rain: Decodable {
+        let lastHour: Double?
+
+        enum CodingKeys: String, CodingKey {
+            case lastHour = "1h"
+        }
+    }
+    struct Wind: Decodable {
+            let speed: Double
+        }
+}
+
 

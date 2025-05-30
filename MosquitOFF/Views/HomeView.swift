@@ -1,183 +1,117 @@
-//
 //  HomeView.swift
 //  MosquitOFF
-//
-//  Created by Astor Ludueña  on 05/05/2025.
-//
 
 import SwiftUI
+import MapKit
 
 struct HomeView: View {
     @StateObject private var viewModel = WeatherViewModel()
-    @State private var reports: [Report] = []
-    private let reportManager = ReportManager()
+    @State private var showMosquitoes = false
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                if let weather = viewModel.weather {
-                    backgroundImageForCondition(weather.condition)
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                        .overlay(Color.black.opacity(0.2).ignoresSafeArea())
-                        .blur(radius: isNightTime() ? 3 : 6)
+        NavigationStack {
+            GeometryReader { geo in
+                ZStack {
+                    // Fondo con gradiente
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.cyan.opacity(0.6)]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    .ignoresSafeArea()
 
-                    mosquitoOverlay(for: mosquitoRisk(for: weather))
-                }
+                    // Animación de mosquitos cuando el riesgo es alto o medio
+                    if showMosquitoes && viewModel.mosquitoRisk != .low {
+                        MosquitoAnimationView(riskLevel: viewModel.mosquitoRisk)
+                            .transition(.opacity)
+                    }
 
-                VStack(spacing: 20) {
-                    Text("MosquitOFF")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .shadow(color: .black.opacity(0.9), radius: 4, x: 0, y: 2)
-                        .padding()
-
-                    if let weather = viewModel.weather {
-                        Text("🌡 Temperature: \(weather.temperature, specifier: "%.1f")°C")
+                    VStack(spacing: 25) {
+                        // Título
+                        Text("MosquitOFF")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
                             .foregroundColor(.white)
-                            .font(.title2)
-                            .shadow(color: .black.opacity(0.8), radius: 3, x: 0, y: 1)
+                            .padding(.top, 50)
 
-                        Text("💧 Humidity: \(weather.humidity, specifier: "%.0f")%")
-                            .foregroundColor(.white)
-                            .font(.title2)
-                            .shadow(color: .black.opacity(0.8), radius: 3, x: 0, y: 1)
+                        Spacer()
 
-                        Text("☁️ Condition: \(weather.condition)")
-                            .foregroundColor(.white)
-                            .font(.title2)
-                            .shadow(color: .black.opacity(0.8), radius: 3, x: 0, y: 1)
+                        // Datos del clima disponibles
+                        if let weather = viewModel.weather {
+                            VStack(spacing: 8) {
+                                Text("Mosquito Risk")
+                                    .foregroundColor(.white.opacity(0.8))
+                                    .font(.headline)
 
-                        Text("🦟 Mosquito Risk: \(mosquitoRisk(for: weather))")
-                            .bold()
-                            .foregroundColor(.white)
-                            .font(.title2)
-                            .shadow(color: .black.opacity(0.8), radius: 3, x: 0, y: 1)
-
-                        Button("🔔 Test Notification") {
-                            NotificationManager.shared.sendDengueRiskNotification()
-                        }
-                        .padding()
-                        .background(Color.yellow.opacity(0.8))
-                        .cornerRadius(10)
-                        .shadow(color: .black.opacity(0.6), radius: 3, x: 0, y: 2)
-                        
-                        Button("Test Daily Reminder") {
-                            NotificationManager.shared.sendTestDailyReminder()
-                        }
-                        .padding()
-                        .background(Color.blue.opacity(0.8))
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-
-
-                        Button(action: {
-                            let newReport = Report(type: "Mosquito", description: "Mosquito avistado en la zona", timestamp: Date())
-                            reports.append(newReport)
-                            reportManager.saveReports(reports)
-                        }) {
-                            Text("Add Report")
-                                .padding()
-                                .background(Color.blue.opacity(0.9))
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                                .shadow(color: .black.opacity(0.6), radius: 3, x: 0, y: 2)
-                        }
-
-                        if mosquitoRisk(for: weather) == "High" {
-                            Button("Send Dengue Risk Notification") {
-                                NotificationManager.shared.sendDengueRiskNotification()
+                                Text(viewModel.mosquitoRisk.rawValue)
+                                    .font(.system(size: 64, weight: .thin))
+                                    .foregroundColor(.white)
                             }
-                            .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                            .shadow(color: .black.opacity(0.6), radius: 3, x: 0, y: 2)
+                            .padding(.top, -20)
+
+                            // Cuadrícula de datos climáticos
+                            LazyVGrid(columns: [GridItem(), GridItem()], spacing: 8) {
+                                WeatherInfoCard(icon: "thermometer", label: "Temp", value: "\(Int(weather.temperature))°")
+                                WeatherInfoCard(icon: "drop.fill", label: "Humidity", value: "\(Int(weather.humidity))%")
+                                WeatherInfoCard(icon: "cloud.rain.fill", label: "Rain", value: "\(String(format: "%.1f", weather.precipitation)) mm")
+                                WeatherInfoCard(icon: "wind", label: "Wind", value: "\(String(format: "%.1f", weather.windSpeed)) km/h")
+                            }
+                            .padding(.horizontal)
+
+                            // Botón al Heatmap
+                            NavigationLink {
+                                HeatMapView()
+                            } label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 32)
+                                        .fill(Color.blue.opacity(0.2))
+                                        .background(.ultraThinMaterial)
+                                        .clipShape(RoundedRectangle(cornerRadius: 32))
+
+                                    VStack(spacing: 6) {
+                                        Image(systemName: "map.fill")
+                                            .font(.title)
+                                            .foregroundColor(.white)
+
+                                        Text("View Mosquito Heatmap")
+                                            .font(.headline)
+                                            .foregroundColor(.white.opacity(0.9))
+                                    }
+                                }
+                                .frame(height: 220)
+                                .padding(.horizontal)
+                            }
+
+                        } else {
+                            // Indicador de carga mientras se obtiene el clima
+                            ProgressView("Loading weather...")
+                                .foregroundColor(.white)
+                                .padding(.top, 40)
                         }
 
-                        NavigationLink(destination: ReportListView()) {
-                            Text("View Reports")
-                                .padding()
-                                .foregroundColor(.white)
-                                .shadow(color: .black.opacity(0.6), radius: 2, x: 0, y: 1)
+                        Spacer()
+                    }
+                    .frame(width: geo.size.width)
+                }
+                // Mostrar animación solo si el riesgo es alto o medio
+                .onChange(of: viewModel.mosquitoRisk) { newRisk in
+                    if newRisk != .low {
+                        withAnimation(.easeIn(duration: 1.0)) {
+                            showMosquitoes = true
                         }
-                    } else {
-                        ProgressView("Loading weather...")
-                            .foregroundColor(.white)
-                            .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                            withAnimation {
+                                showMosquitoes = false
+                            }
+                        }
                     }
                 }
-                .padding()
-                .navigationTitle("")
-                .onAppear {
-                    reports = reportManager.loadReports()
-                    NotificationManager.shared.requestPermission()
-                    NotificationManager.shared.scheduleDailyReminder()
-                }
-            }
-        }
-    }
-
-    // MARK: - Helpers
-
-    func mosquitoRisk(for data: WeatherData) -> String {
-        let temp = data.temperature
-        let humidity = data.humidity
-        let condition = data.condition.lowercased()
-
-        let isRainy = condition.contains("rain") || condition.contains("storm") || condition.contains("drizzle")
-
-        if temp >= 25 && humidity >= 60 && isRainy {
-            return "High"
-        } else if temp >= 20 && humidity >= 40 {
-            return "Medium"
-        } else {
-            return "Low"
-        }
-    }
-    
-    func isNightTime() -> Bool {
-        let hour = Calendar.current.component(.hour, from: Date())
-        return hour >= 19 || hour < 6
-    }
-
-    func backgroundImageForCondition(_ condition: String) -> Image {
-        if isNightTime() {
-            return Image("night_bg")
-        }
-
-        switch condition.lowercased() {
-        case "sunny": return Image("sunny_bg")
-        case "cloudy": return Image("cloudy_bg")
-        case "rainy": return Image("rainy_bg")
-        default: return Image("sunny_bg")
-        }
-    }
-
-
-    func mosquitoOverlay(for risk: String) -> some View {
-        let count: Int
-        switch risk {
-        case "High": count = 30
-        case "Medium": count = 15
-        default: count = 5
-        }
-
-        return ZStack {
-            ForEach(0..<count, id: \.self) { _ in
-                Text("🦟")
-                    .font(.title2)
-                    .position(
-                        x: CGFloat.random(in: 0...UIScreen.main.bounds.width),
-                        y: CGFloat.random(in: 0...UIScreen.main.bounds.height)
-                    )
-                    .opacity(0.4)
             }
         }
     }
 }
+
+
 
 
 

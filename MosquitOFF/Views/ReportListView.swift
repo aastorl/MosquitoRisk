@@ -5,6 +5,8 @@
 //  Created by Astor Ludueña  on 06/05/2025.
 //
 
+// Deprecated
+
 import SwiftUI
 
 struct ReportListView: View {

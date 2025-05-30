@@ -1,24 +1,20 @@
-//
-//  NotificationManager.swift
-//  MosquitOFF
-//
-//  Created by Astor Ludueña  on 10/05/2025.
-//
-
 import Foundation
 import UserNotifications
 
 class NotificationManager {
-    static let shared = NotificationManager() // Singleton
+    static let shared = NotificationManager()
+    private init() {}
 
-    private init() {} // Evita instanciar fuera de shared
+    // MARK: - Permiso
 
-    // Solicita permiso para notificaciones
     func requestPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             DispatchQueue.main.async {
-                if granted {
+                if let error = error {
+                    print("❌ Notification permission error: \(error.localizedDescription)")
+                } else if granted {
                     print("✅ Notification permission granted")
+                    self.setupNotificationCategories()
                 } else {
                     print("❌ Notification permission denied")
                 }
@@ -26,34 +22,49 @@ class NotificationManager {
         }
     }
 
-    // Envía notificación de alto riesgo de dengue (default 10 seg después)
+    // MARK: - Categorías y acciones
+
+    private func setupNotificationCategories() {
+        let reportAction = UNNotificationAction(identifier: "REPORT_MOSQUITO_ACTION",
+                                                title: "Report Mosquito",
+                                                options: [.foreground])
+        let category = UNNotificationCategory(identifier: "DENGUE_RISK_CATEGORY",
+                                              actions: [reportAction],
+                                              intentIdentifiers: [],
+                                              options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+    }
+
+    // MARK: - Notificaciones
+
     func sendDengueRiskNotification(after seconds: TimeInterval = 10) {
         let content = UNMutableNotificationContent()
-        content.title = "⚠️ High Dengue Risk"
-        content.body = "Weather conditions favor mosquito activity. Take precautions!"
+        content.title = "⚠️ Dengue Risk Alert"
+        content.body = "Weather conditions increase mosquito activity in your area. Please take precautions and report any sightings."
         content.sound = .default
+        content.categoryIdentifier = "DENGUE_RISK_CATEGORY"
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
         let request = UNNotificationRequest(identifier: "dengueRiskAlert", content: content, trigger: trigger)
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("❌ Error sending dengue notification: \(error.localizedDescription)")
+                print("❌ Error scheduling dengue notification: \(error.localizedDescription)")
             } else {
                 print("📢 Dengue risk notification scheduled")
             }
         }
     }
 
-    // Programa recordatorio diario para reportar mosquitos a la hora especificada (default 18 hs)
-    func scheduleDailyReminder(hour: Int = 18) {
+    func scheduleDailyReminder(hour: Int = 18, minute: Int = 0) {
         let content = UNMutableNotificationContent()
-        content.title = "🦟 Daily Reminder"
-        content.body = "Have you seen any mosquitoes today? Report them!"
+        content.title = "🦟 Daily Mosquito Report"
+        content.body = "Have you seen any mosquitoes today? Help us track their presence by sending a report."
         content.sound = .default
 
         var dateComponents = DateComponents()
         dateComponents.hour = hour
+        dateComponents.minute = minute
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
 
@@ -67,28 +78,9 @@ class NotificationManager {
             }
         }
     }
-    
-    func sendTestDailyReminder(after seconds: TimeInterval = 10) {
-        let content = UNMutableNotificationContent()
-        content.title = "🦟 Test Daily Reminder"
-        content.body = "This is a test daily reminder notification."
-        content.sound = .default
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
+    // MARK: - Eliminar todas las notificaciones
 
-        let request = UNNotificationRequest(identifier: "testDailyReminder", content: content, trigger: trigger)
-
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("❌ Error sending test daily reminder: \(error.localizedDescription)")
-            } else {
-                print("📢 Test daily reminder notification scheduled")
-            }
-        }
-    }
-
-
-    // Elimina todas las notificaciones pendientes y entregadas
     func removeAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()

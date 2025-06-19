@@ -35,46 +35,29 @@ class NotificationManager {
         UNUserNotificationCenter.current().setNotificationCategories([category])
     }
 
-    // MARK: - Notificaciones
+    // MARK: - Notificación solo si el riesgo es alto
 
-    func sendDengueRiskNotification(after seconds: TimeInterval = 10) {
+    func sendDengueRiskNotificationIfHigh(riskLevel: MosquitoRisk.RiskLevel) {
+        guard riskLevel == .high else {
+            print("ℹ️ Risk level is not high, no notification sent.")
+            return
+        }
+
         let content = UNMutableNotificationContent()
         content.title = "⚠️ Dengue Risk Alert"
-        content.body = "Weather conditions increase mosquito activity in your area. Please take precautions and report any sightings."
+        content.body = "Weather conditions indicate high mosquito activity in your area. Please take precautions."
         content.sound = .default
         content.categoryIdentifier = "DENGUE_RISK_CATEGORY"
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+
         let request = UNNotificationRequest(identifier: "dengueRiskAlert", content: content, trigger: trigger)
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("❌ Error scheduling dengue notification: \(error.localizedDescription)")
             } else {
-                print("📢 Dengue risk notification scheduled")
-            }
-        }
-    }
-
-    func scheduleDailyReminder(hour: Int = 18, minute: Int = 0) {
-        let content = UNMutableNotificationContent()
-        content.title = "🦟 Daily Mosquito Report"
-        content.body = "Have you seen any mosquitoes today? Help us track their presence by sending a report."
-        content.sound = .default
-
-        var dateComponents = DateComponents()
-        dateComponents.hour = hour
-        dateComponents.minute = minute
-
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-
-        let request = UNNotificationRequest(identifier: "dailyReportReminder", content: content, trigger: trigger)
-
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("❌ Error scheduling daily reminder: \(error.localizedDescription)")
-            } else {
-                print("🕕 Daily mosquito report reminder scheduled")
+                print("📢 Dengue risk notification (HIGH) scheduled")
             }
         }
     }

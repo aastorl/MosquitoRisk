@@ -1,3 +1,4 @@
+
 //  HomeView.swift
 //  MosquitOFF
 
@@ -7,6 +8,8 @@ import MapKit
 struct HomeView: View {
     @StateObject private var viewModel = WeatherViewModel()
     @State private var showMosquitoes = false
+    @AppStorage("hasSeenIntro") private var hasSeenIntro: Bool = false
+    @State private var showRiskInfo = false
 
     var body: some View {
         NavigationStack {
@@ -39,9 +42,20 @@ struct HomeView: View {
                         // Datos del clima disponibles
                         if let weather = viewModel.weather {
                             VStack(spacing: 8) {
-                                Text("Mosquito Risk")
-                                    .foregroundColor(.white.opacity(0.8))
-                                    .font(.headline)
+                                HStack(spacing: 6) {
+                                    Text("Mosquito Risk")
+                                        .foregroundColor(.white.opacity(0.8))
+                                        .font(.headline)
+
+                                    Button(action: {
+                                        showRiskInfo = true
+                                    }) {
+                                        Image(systemName: "info.circle")
+                                            .font(.caption)
+                                            .foregroundColor(.white.opacity(0.7))
+                                    }
+                                    .buttonStyle(.plain)
+                                }
 
                                 Text(viewModel.mosquitoRisk.rawValue)
                                     .font(.system(size: 64, weight: .thin))
@@ -106,10 +120,21 @@ struct HomeView: View {
                         }
                     }
                 }
+                // Sheet de introducción
+                .sheet(isPresented: .constant(!hasSeenIntro)) {
+                    IntroSheetView {
+                        hasSeenIntro = true
+                    }
+                }
+                // Sheet de información de riesgo
+                .sheet(isPresented: $showRiskInfo) {
+                    RiskInfoSheetView()
+                }
             }
         }
     }
 }
+
 
 
 

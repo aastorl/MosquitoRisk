@@ -1,8 +1,8 @@
 //
-//  MapView.swift
+//  HeatMapView.swift
 //  MosquitOFF
 //
-//  Created by Astor Ludueña  on 05/05/2025.
+//  Created by Astor Ludueña on 05/05/2025.
 //
 
 import SwiftUI
@@ -10,41 +10,66 @@ import MapKit
 
 struct HeatMapView: View {
     @StateObject private var viewModel = HeatMapViewModel()
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: -32.9575, longitude: -60.6394),
-        span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-    )
+    @StateObject private var locationManager = LocationManager()
+    @State private var shouldCenterMap = false
 
     let coordinates: [CLLocationCoordinate2D] = [
-        CLLocationCoordinate2D(latitude: -32.9500, longitude: -60.6400),
-        CLLocationCoordinate2D(latitude: -32.9510, longitude: -60.6300),
-        CLLocationCoordinate2D(latitude: -32.9520, longitude: -60.6200),
-        CLLocationCoordinate2D(latitude: -32.9530, longitude: -60.6500),
-        CLLocationCoordinate2D(latitude: -32.9540, longitude: -60.6600)
+        CLLocationCoordinate2D(latitude: -32.957245, longitude: -60.623553), // Parque Urquiza
+        CLLocationCoordinate2D(latitude: -32.932412, longitude: -60.646578), // Parque de las Colectividades
+        CLLocationCoordinate2D(latitude: -32.909576, longitude: -60.678004), // Parque Alem
+        CLLocationCoordinate2D(latitude: -32.930025, longitude: -60.667628), // Parque Scalabrini Ortiz
+        CLLocationCoordinate2D(latitude: -32.932412, longitude: -60.646578), // Costanera
+        CLLocationCoordinate2D(latitude: -32.959189, longitude: -60.660016)  // Independencia
     ]
 
-    var body: some View {
-        Map(coordinateRegion: $region, annotationItems: viewModel.riskZones) { zone in
-            MapAnnotation(coordinate: zone.coordinate) {
-                Circle()
-                    .fill(color(for: zone.riskLevel).opacity(0.4))
-                    .frame(width: 80, height: 80)
-            }
-        }
-        .onAppear {
-            viewModel.fetchRiskZones(for: coordinates)
-        }
-        .navigationTitle("Mosquito Risk Heatmap")
-        .ignoresSafeArea(edges: .bottom)
-    }
+    let radius: CLLocationDistance = 400
 
-    func color(for level: MosquitoRisk.RiskLevel) -> Color {
-        switch level {
-        case .high: return .red
-        case .medium: return .orange
-        case .low: return .green
+    var body: some View {
+        if let userLocation = locationManager.location,
+           viewModel.riskZones.count == coordinates.count {
+
+            ZStack {
+                StaticHeatMapView(
+                    coordinates: coordinates,
+                    radius: radius,
+                    riskLevels: viewModel.riskZones.map { $0.riskLevel },
+                    center: userLocation,
+                    shouldCenterMap: $shouldCenterMap
+                )
+                .edgesIgnoringSafeArea(.all)
+
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            shouldCenterMap = true
+                        }) {
+                            Image(systemName: "location.fill")
+                                .padding()
+                                .background(Color.white.opacity(0.8))
+                                .clipShape(Circle())
+                                .shadow(radius: 4)
+                        }
+                        .padding()
+                    }
+                }
+            }
+
+        } else {
+            ProgressView("Cargando mapa y niveles de riesgo...")
+                .onAppear {
+                    viewModel.fetchRiskZones(for: coordinates)
+                }
         }
     }
 }
+
+
+
+
+
+
+
 
 

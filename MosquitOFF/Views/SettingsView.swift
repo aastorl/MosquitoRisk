@@ -9,37 +9,37 @@ import SwiftUI
 import UserNotifications
 
 struct SettingsView: View {
-    @State private var isNotificationEnabled: Bool = false
-    private let notificationManager = NotificationManager.shared
+    @State private var notificationsAllowed = false
 
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Notification Settings")) {
-                    Toggle(isOn: $isNotificationEnabled) {
-                        Text("Enable Daily Notifications")
+                Section(header: Text("Notifications")) {
+                    HStack {
+                        Text("System Permission")
+                        Spacer()
+                        Image(systemName: notificationsAllowed ? "checkmark.circle.fill" : "xmark.octagon.fill")
+                            .foregroundColor(notificationsAllowed ? .green : .red)
                     }
-                    .onChange(of: isNotificationEnabled) { value in
-                        // When toggle value changes, enable or disable notifications
-                        if value {
-                            notificationManager.scheduleDailyReminder()
-                            notificationManager.sendDengueRiskNotification()
-                        } else {
-                            notificationManager.removeAllNotifications()
+
+                    if !notificationsAllowed {
+                        Button("Open System Settings") {
+                            if let url = URL(string: UIApplication.openSettingsURLString),
+                               UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url)
+                            }
                         }
+                        .foregroundColor(.blue)
                     }
-                    
-                    // Inform user if notifications are allowed
-                    if !isNotificationEnabled {
-                        Text("Please enable notifications in settings")
-                            .foregroundColor(.red)
-                            .font(.footnote)
-                    }
+
+                    Text("You'll automatically receive alerts when mosquito risk is high in your area.")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                        .padding(.top, 4)
                 }
             }
-            .navigationBarTitle("Settings", displayMode: .inline)
+            .navigationTitle("Settings")
             .onAppear {
-                // Check if notifications are enabled
                 checkNotificationPermission()
             }
         }
@@ -48,12 +48,9 @@ struct SettingsView: View {
     private func checkNotificationPermission() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
-                isNotificationEnabled = settings.authorizationStatus == .authorized
+                notificationsAllowed = settings.authorizationStatus == .authorized
             }
         }
     }
 }
 
-#Preview {
-    SettingsView()
-}

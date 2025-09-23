@@ -1,75 +1,194 @@
 import Foundation
 import UserNotifications
 
-class NotificationManager {
+final class NotificationManager {
     static let shared = NotificationManager()
+    
+    // MARK: - Propiedades para throttling
+    private var lastRiskLevel: MosquitoRisk.RiskLevel?
+    private var lastNotificationTime: Date?
+    private var lastLogTime: Date?
+    
     private init() {}
 
-    // MARK: - Permiso
+    // MARK: - Solicitar permiso de notificaciones
 
     func requestPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("❌ Notification permission error: \(error.localizedDescription)")
+                    print("❌ Error al solicitar permiso: \(error.localizedDescription)")
                 } else if granted {
-                    print("✅ Notification permission granted")
+                    print("✅ Permiso concedido")
                     self.setupNotificationCategories()
                 } else {
-                    print("❌ Notification permission denied")
+                    print("❌ Permiso denegado por el usuario")
                 }
             }
         }
     }
 
-    // MARK: - Categorías y acciones
+    // MARK: - Configurar categorías (sin acciones innecesarias)
 
     private func setupNotificationCategories() {
-        let reportAction = UNNotificationAction(identifier: "REPORT_MOSQUITO_ACTION",
-                                                title: "Report Mosquito",
-                                                options: [.foreground])
-        let category = UNNotificationCategory(identifier: "DENGUE_RISK_CATEGORY",
-                                              actions: [reportAction],
-                                              intentIdentifiers: [],
-                                              options: [])
-        UNUserNotificationCenter.current().setNotificationCategories([category])
+        let dengueCategory = UNNotificationCategory(
+            identifier: "MOSQUITO_RISK_CATEGORY",
+            actions: [], // Eliminamos la acción que no funcionaba
+            intentIdentifiers: [],
+            options: []
+        )
+
+        UNUserNotificationCenter.current().setNotificationCategories([dengueCategory])
     }
 
-    // MARK: - Notificación solo si el riesgo es alto
+    // MARK: - Verificar permisos del sistema (método auxiliar)
+    
+    private func checkNotificationPermission(completion: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                completion(settings.authorizationStatus == .authorized)
+            }
+        }
+    }
 
-    func sendDengueRiskNotificationIfHigh(riskLevel: MosquitoRisk.RiskLevel) {
-        guard riskLevel == .high else {
-            print("ℹ️ Risk level is not high, no notification sent.")
+    // MARK: - Enviar notificación solo para riesgo alto
+
+    func sendMosquitoRiskNotification(riskLevel: MosquitoRisk.RiskLevel, weather: WeatherData) {
+        // Solo procesar cambios significativos
+        if let lastLevel = lastRiskLevel, lastLevel == riskLevel {
             return
         }
+        
+        lastRiskLevel = riskLevel
+        let now = Date()
+        
+        // Solo notificar cuando el riesgo es alto
+        guard riskLevel == .high else {
+            print("ℹ️ Riesgo actualizado: \(riskLevel.rawValue)")
+            return
+        }
+        
+        // Throttling: 30 minutos entre notificaciones
+        if let lastTime = lastNotificationTime {
+            let timeSinceLastNotification = now.timeIntervalSince(lastTime)
+            guard timeSinceLastNotification > 1800 else { // 30 minutos = 1800 segundos
+                print("⏰ Notificación ya enviada hace poco. Esperando...")
+                return
+            }
+        }
 
+        checkNotificationPermission { [weak self] isAuthorized in
+            guard isAuthorized else {
+                print("❌ Notificaciones no autorizadas en el sistema")
+                return
+            }
+            
+            self?.scheduleHighRiskNotification(weather: weather)
+            self?.lastNotificationTime = now
+        }
+    }
+    
+    // MARK: - Programar notificación solo para riesgo alto
+    
+    private func scheduleHighRiskNotification(weather: WeatherData) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["mosquitoRiskAlert"])
+        
         let content = UNMutableNotificationContent()
-        content.title = "⚠️ Dengue Risk Alert"
-        content.body = "Weather conditions indicate high mosquito activity in your area. Please take precautions."
+        content.title = "⚠️ Riesgo alto de mosquitos"
+        content.body = createHighRiskMessage(weather: weather)
         content.sound = .default
-        content.categoryIdentifier = "DENGUE_RISK_CATEGORY"
+        content.categoryIdentifier = "MOSQUITO_RISK_CATEGORY"
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        // Notificación inmediata
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
 
-        let request = UNNotificationRequest(identifier: "dengueRiskAlert", content: content, trigger: trigger)
+        let request = UNNotificationRequest(
+            identifier: "mosquitoRiskAlert",
+            content: content,
+            trigger: trigger
+        )
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("❌ Error scheduling dengue notification: \(error.localizedDescription)")
+                print("❌ Error al agendar notificación: \(error.localizedDescription)")
             } else {
-                print("📢 Dengue risk notification (HIGH) scheduled")
+                print("📢 Notificación de riesgo alto programada")
             }
+        }
+    }
+    
+    // MARK: - Crear mensaje contextual para riesgo alto
+    
+    private func createHighRiskMessage(weather: WeatherData) -> String {
+        var factors: [String] = []
+        
+        // Identificar factores de riesgo específicos
+        if weather.humidity > 70 {
+            factors.append("humedad alta (\(Int(weather.humidity))%)")
+        }
+        
+        if weather.temperature > 25 {
+            factors.append("temperatura elevada (\(Int(weather.temperature))°)")
+        }
+        
+        if weather.precipitation > 0 {
+            factors.append("lluvia reciente")
+        }
+        
+        let baseMessage = "Condiciones propicias para mosquitos en tu zona."
+        
+        if factors.isEmpty {
+            return baseMessage + " Tomá precauciones."
+        } else {
+            let factorsList = factors.joined(separator: ", ")
+            return baseMessage + " Factores: \(factorsList). Usá repelente y evitá agua estancada."
         }
     }
 
     // MARK: - Eliminar todas las notificaciones
 
     func removeAllNotifications() {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        print("🔕 All notifications removed")
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+        center.removeAllDeliveredNotifications()
+        print("🔕 Todas las notificaciones eliminadas")
+    }
+    
+    // MARK: - Métodos para controlar desde la UI
+    
+    func enableNotifications() {
+        UserDefaults.standard.set(true, forKey: "notificationsEnabled")
+        print("✅ Notificaciones habilitadas por el usuario")
+    }
+    
+    func disableNotifications() {
+        UserDefaults.standard.set(false, forKey: "notificationsEnabled")
+        removeAllNotifications()
+        print("🔕 Notificaciones deshabilitadas por el usuario")
+    }
+    
+    func areNotificationsEnabledInApp() -> Bool {
+        return UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
+    }
+    
+    // MARK: - Reset para debugging
+    func resetThrottling() {
+        lastRiskLevel = nil
+        lastNotificationTime = nil
+        lastLogTime = nil
+        print("🔄 Throttling reseteado")
+    }
+    
+    // MARK: - Verificar estado de permisos del sistema
+    func checkSystemPermissionStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                completion(settings.authorizationStatus)
+            }
+        }
     }
 }
+
 
 
 

@@ -33,8 +33,11 @@ class WeatherService {
                         humidity: decoded.main.humidity,
                         condition: decoded.weather.first?.main ?? "Desconocido",
                         precipitation: precipitation,
-                        windSpeed: decoded.wind?.speed ?? 0.0
+                        windSpeed: decoded.wind?.speed ?? 0.0,
+                        sunrise: Date(timeIntervalSince1970: decoded.sys.sunrise),
+                        sunset: Date(timeIntervalSince1970: decoded.sys.sunset)
                     )
+
                     DispatchQueue.main.async {
                         completion(weather)
                     }
@@ -57,6 +60,7 @@ struct OpenWeatherResponse: Decodable {
     let weather: [Weather]
     let rain: Rain?
     let wind: Wind?
+    let sys: Sys
 
     struct Main: Decodable {
         let temp: Double
@@ -76,6 +80,10 @@ struct OpenWeatherResponse: Decodable {
     }
     struct Wind: Decodable {
             let speed: Double
+        }
+    struct Sys: Decodable {
+            let sunrise: TimeInterval
+            let sunset: TimeInterval
         }
 }
 

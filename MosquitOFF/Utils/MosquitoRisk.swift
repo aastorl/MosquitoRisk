@@ -5,55 +5,60 @@
 //  Created by Astor Ludueña  on 27/05/2025.
 //
 
-
 import Foundation
+import SwiftUI
 
 struct MosquitoRisk {
     
     enum RiskLevel: String {
-        case low = "Low"
-        case medium = "Medium"
-        case high = "High"
+        case low = "Bajo"
+        case medium = "Medio"
+        case high = "Alto"
     }
-    
+
     static func calculateRisk(from data: WeatherData) -> RiskLevel {
         var baseRisk: RiskLevel
 
-        switch (data.temperature, data.humidity) {
-        case (25...40, 60...100):
+        // Rango más flexible para Rosario: verano húmedo
+        if (data.temperature >= 22 && data.temperature <= 40) && (data.humidity >= 60) {
             baseRisk = .high
-        case (20..<25, 40..<60):
+        } else if (data.temperature >= 18 && data.temperature < 22) && (data.humidity >= 50) {
             baseRisk = .medium
-        default:
+        } else {
             baseRisk = .low
         }
 
-        // Ajustar según el viento
-        if data.windSpeed >= 35 {
+        // 🌧️ Precipitación: más agua = más riesgo
+        if data.precipitation >= 5 {
+            if baseRisk == .low {
+                baseRisk = .medium
+            } else if baseRisk == .medium {
+                baseRisk = .high
+            }
+        }
+
+        // 🌬️ Viento (en km/h): mucho viento ahuyenta mosquitos
+        if data.windSpeed >= 40 {
             return .low
-        } else if data.windSpeed >= 25 {
+        } else if data.windSpeed >= 30 {
             switch baseRisk {
-            case .high:
-                return .medium
-            case .medium:
-                return .low
-            case .low:
-                return .low
+            case .high: return .medium
+            case .medium: return .low
+            case .low: return .low
             }
         }
 
         return baseRisk
     }
-    
+
+    // Mantener la función original para compatibilidad
     static func riskColor(for level: RiskLevel) -> String {
         switch level {
-        case .high:
-            return "red"
-        case .medium:
-            return "orange"
-        case .low:
-            return "green"
+        case .high: return "red"
+        case .medium: return "orange"
+        case .low: return "green"
         }
     }
 }
+
 

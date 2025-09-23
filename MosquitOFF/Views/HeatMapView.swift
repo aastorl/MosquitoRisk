@@ -12,25 +12,42 @@ struct HeatMapView: View {
     @StateObject private var viewModel = HeatMapViewModel()
     @StateObject private var locationManager = LocationManager()
     @State private var shouldCenterMap = false
+    @State private var showRiskInfo = false
 
-    let coordinates: [CLLocationCoordinate2D] = [
-        CLLocationCoordinate2D(latitude: -32.957245, longitude: -60.623553), // Parque Urquiza
-        CLLocationCoordinate2D(latitude: -32.932412, longitude: -60.646578), // Parque de las Colectividades
-        CLLocationCoordinate2D(latitude: -32.909576, longitude: -60.678004), // Parque Alem
-        CLLocationCoordinate2D(latitude: -32.930025, longitude: -60.667628), // Parque Scalabrini Ortiz
-        CLLocationCoordinate2D(latitude: -32.932412, longitude: -60.646578), // Costanera
-        CLLocationCoordinate2D(latitude: -32.959189, longitude: -60.660016)  // Independencia
+    // Diccionario con múltiples puntos por parque
+    let parks: [String: [CLLocationCoordinate2D]] = [
+        "Parque Urquiza": [
+            CLLocationCoordinate2D(latitude: -32.9572, longitude: -60.6235),
+            CLLocationCoordinate2D(latitude: -32.9575, longitude: -60.6228),
+            CLLocationCoordinate2D(latitude: -32.9570, longitude: -60.6240)
+        ],
+        "Parque de las Colectividades": [
+            CLLocationCoordinate2D(latitude: -32.9324, longitude: -60.6465),
+            CLLocationCoordinate2D(latitude: -32.9326, longitude: -60.6458)
+        ],
+        "Parque Alem": [
+            CLLocationCoordinate2D(latitude: -32.9095, longitude: -60.6780),
+            CLLocationCoordinate2D(latitude: -32.9093, longitude: -60.6775)
+        ],
+        "Parque Scalabrini Ortiz": [
+            CLLocationCoordinate2D(latitude: -32.9300, longitude: -60.6676),
+            CLLocationCoordinate2D(latitude: -32.9298, longitude: -60.6670)
+        ],
+        "Independencia": [
+            CLLocationCoordinate2D(latitude: -32.9591, longitude: -60.6600),
+            CLLocationCoordinate2D(latitude: -32.9588, longitude: -60.6595)
+        ]
     ]
 
     let radius: CLLocationDistance = 400
 
     var body: some View {
         if let userLocation = locationManager.location,
-           viewModel.riskZones.count == coordinates.count {
+           viewModel.riskZones.count == parks.count {
 
             ZStack {
                 StaticHeatMapView(
-                    coordinates: coordinates,
+                    coordinates: viewModel.riskZones.map { $0.coordinate },
                     radius: radius,
                     riskLevels: viewModel.riskZones.map { $0.riskLevel },
                     center: userLocation,
@@ -39,7 +56,24 @@ struct HeatMapView: View {
                 .edgesIgnoringSafeArea(.all)
 
                 VStack {
+                    // Botón centrado debajo del notch
+                    Button(action: {
+                        showRiskInfo = true
+                    }) {
+                        Label("¿Qué es esto?", systemImage: "info.circle.fill")
+                            .font(.subheadline)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(.ultraThinMaterial)
+                            .clipShape(Capsule())
+                            .shadow(radius: 3)
+                    }
+                    .safeAreaPadding(.top)
+                    .offset(y: -15) // Ajustá el valor según cómo lo querés de cerca del notch
+
                     Spacer()
+
+                    // Botón de centrar mapa abajo a la derecha
                     HStack {
                         Spacer()
                         Button(action: {
@@ -55,14 +89,21 @@ struct HeatMapView: View {
                     }
                 }
             }
+            .sheet(isPresented: $showRiskInfo) {
+                HeatMapInfoSheet()
+            }
 
         } else {
             ProgressView("Cargando mapa y niveles de riesgo...")
                 .onAppear {
-                    viewModel.fetchRiskZones(for: coordinates)
+                    viewModel.fetchRiskZones(for: parks)
                 }
         }
     }
+}
+
+#Preview {
+    HeatMapView()
 }
 
 

@@ -1,120 +1,112 @@
 //
-//  MosquitoAnimation.swift
+//  MosquitoAnimation.swift - Versión Optimizada
 //  MosquitOFF
-//
-//  Created by Astor Ludueña  on 28/05/2025.
 //
 
 import SwiftUI
 
 struct MosquitoAnimationView: View {
     let riskLevel: MosquitoRisk.RiskLevel
-    @State private var mosquitoes: [Mosquito] = []
-
+    @State private var mosquitoes: [RandomMosquito] = []
+    
     var body: some View {
         ZStack {
             ForEach(mosquitoes) { mosquito in
-                Text("🦟")
-                    .font(.system(size: mosquito.size))
-                    .position(x: mosquito.x, y: mosquito.y)
-                    .opacity(opacity(for: mosquito.y))
-                    .blur(radius: 0.3)
-                    .shadow(color: .black.opacity(0.1), radius: 1)
+                MosquitoParticle(mosquito: mosquito)
             }
         }
         .allowsHitTesting(false)
         .onAppear {
-            spawnMosquitoes()
+            generateMosquitoes()
         }
     }
-
-    func opacity(for y: CGFloat) -> Double {
-        let fadeStartY: CGFloat = 50
-        if y < -100 {
-            return 0
-        } else if y > fadeStartY {
-            return 0.7
-        } else {
-            return Double((y + 100) / (fadeStartY + 100)) * 0.7
-        }
-    }
-
-    func spawnMosquitoes() {
-        let mosquitoCount: Int
-        switch riskLevel {
-        case .low:
-            mosquitoCount = 2
-        case .medium:
-            mosquitoCount = 6
-        case .high:
-            mosquitoCount = 14
-        }
-
-        for i in 0..<mosquitoCount {
-            let screenWidth = UIScreen.main.bounds.width
-            let screenHeight = UIScreen.main.bounds.height
-
-            let startX = CGFloat.random(in: 0...screenWidth)
-            let startY = screenHeight + CGFloat(i * 40)
-            let driftX = CGFloat.random(in: -50...50)
-            let wobbleAmplitude = CGFloat.random(in: 8...14)
-            let wobbleSpeed = Double.random(in: 2.5...4.5)
-            let size = CGFloat.random(in: 18...24)
-            let duration = Double.random(in: 4.0...6.5)
-
-            let id = UUID()
-            var mosquito = Mosquito(
-                id: id,
-                x: startX,
-                y: startY,
-                baseX: startX + driftX,
-                wobbleAmplitude: wobbleAmplitude,
-                wobbleSpeed: wobbleSpeed,
-                size: size,
-                startTime: Date().timeIntervalSinceReferenceDate
+    
+    private func generateMosquitoes() {
+        let count = mosquitoCount(for: riskLevel)
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+        
+        mosquitoes = (0..<count).map { index in
+            RandomMosquito(
+                id: UUID(),
+                x: CGFloat.random(in: 30...(screenWidth - 30)),
+                y: CGFloat.random(in: 100...(screenHeight - 200)),
+                size: CGFloat.random(in: 16...22),
+                delay: Double(index) * 0.3 + Double.random(in: 0...1.0)
             )
-
-            mosquitoes.append(mosquito)
-
-            withAnimation(.linear(duration: duration)) {
-                if let index = mosquitoes.firstIndex(where: { $0.id == id }) {
-                    mosquitoes[index].y = -120
-                }
-            }
-
-            let timer = Timer.scheduledTimer(withTimeInterval: 0.016, repeats: true) { t in
-                guard let index = mosquitoes.firstIndex(where: { $0.id == id }) else {
-                    t.invalidate()
-                    return
-                }
-
-                let time = Date().timeIntervalSinceReferenceDate - mosquitoes[index].startTime
-                let oscillation = mosquito.wobbleAmplitude * CGFloat(sin(time * mosquito.wobbleSpeed))
-                mosquitoes[index].x = mosquito.baseX + oscillation
-
-                if mosquitoes[index].y < -130 {
-                    mosquitoes.remove(at: index)
-                    t.invalidate()
-                }
-            }
-
-            RunLoop.main.add(timer, forMode: .common)
+        }
+    }
+    
+    private func mosquitoCount(for risk: MosquitoRisk.RiskLevel) -> Int {
+        switch risk {
+        case .low: return 0
+        case .medium: return 6
+        case .high: return 12
         }
     }
 }
 
-struct Mosquito: Identifiable {
-    let id: UUID
-    var x: CGFloat
-    var y: CGFloat
-    var baseX: CGFloat
-    var wobbleAmplitude: CGFloat
-    var wobbleSpeed: Double
-    var size: CGFloat
-    var startTime: TimeInterval
+struct MosquitoParticle: View {
+    let mosquito: RandomMosquito
+    @State private var opacity: Double = 0.0
+    @State private var scale: CGFloat = 0.5
+    @State private var rotation: Double = 0
+    @State private var offsetX: CGFloat = 0
+    @State private var offsetY: CGFloat = 0
+    
+    var body: some View {
+        Text("🦟")
+            .font(.system(size: mosquito.size))
+            .opacity(opacity)
+            .scaleEffect(scale)
+            .rotationEffect(.degrees(rotation))
+            .offset(x: offsetX, y: offsetY)
+            .position(x: mosquito.x, y: mosquito.y)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + mosquito.delay) {
+                    startAnimation()
+                }
+            }
+    }
+    
+    private func startAnimation() {
+        // Aparición suave
+        withAnimation(.easeOut(duration: 0.8)) {
+            opacity = 0.7
+            scale = 1.0
+        }
+        
+        // Movimiento sutil y aleatorio
+        withAnimation(
+            .easeInOut(duration: Double.random(in: 2.0...3.5))
+            .repeatForever(autoreverses: true)
+        ) {
+            offsetX = CGFloat.random(in: -20...20)
+            offsetY = CGFloat.random(in: -15...15)
+        }
+        
+        // Desaparición después de un tiempo
+        let lifespan = Double.random(in: 4.0...6.0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + lifespan) {
+            // Desaparición después de un tiempo
+            let lifespan = Double.random(in: 4.0...6.0)
+            DispatchQueue.main.asyncAfter(deadline: .now() + lifespan - 2.0) { // Empezar 2 segundos antes
+                withAnimation(.easeOut(duration: 2.0)) { // Fade más largo
+                    opacity = 0.0
+                    scale = 0.8 // Reducción menos brusca
+                }
+            }
+        }
+    }
 }
 
-
+struct RandomMosquito: Identifiable {
+    let id: UUID
+    let x: CGFloat
+    let y: CGFloat
+    let size: CGFloat
+    let delay: Double
+}
 
 
 

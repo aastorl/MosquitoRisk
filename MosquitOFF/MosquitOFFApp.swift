@@ -6,24 +6,20 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 @main
 struct MosquitOFFApp: App {
-    @AppStorage("colorScheme") private var colorSchemeValue: String = "light"
-
-    var colorScheme: ColorScheme {
-        colorSchemeValue == "dark" ? .dark : .light
+    init() {
+        // Evita que la app pause la música externa al iniciarse
+        try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default, options: [])
+        try? AVAudioSession.sharedInstance().setActive(true)
     }
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
-                .preferredColorScheme(colorScheme)
+            LaunchScreenView()
         }
     }
 }
 
-
-#Preview {
-    HomeView()
-}

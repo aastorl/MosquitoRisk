@@ -7,60 +7,125 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B3D11D922DE11A3100989E6F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B3D11D912DE11A3100989E6F /* Lottie */; };
+		B35997332E85FD2E009BACE3 /* sunny 3sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B359970E2E85FD2E009BACE3 /* sunny 3sec.mp4 */; };
+		B35997342E85FD2E009BACE3 /* Cloudy night 3sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B35997092E85FD2E009BACE3 /* Cloudy night 3sec.mp4 */; };
+		B35997352E85FD2E009BACE3 /* cloudy 3sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B35997082E85FD2E009BACE3 /* cloudy 3sec.mp4 */; };
+		B35997362E85FD2E009BACE3 /* mosquito.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B359972E2E85FD2E009BACE3 /* mosquito.xcassets */; };
+		B35997372E85FD2E009BACE3 /* Clear night 3sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B35997072E85FD2E009BACE3 /* Clear night 3sec.mp4 */; };
+		B35997382E85FD2E009BACE3 /* Storm Night 3sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B359970D2E85FD2E009BACE3 /* Storm Night 3sec.mp4 */; };
+		B35997392E85FD2E009BACE3 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = B359972C2E85FD2E009BACE3 /* AppIcon.icon */; };
+		B359973A2E85FD2E009BACE3 /* mosquito-risk.json in Resources */ = {isa = PBXBuildFile; fileRef = B359970A2E85FD2E009BACE3 /* mosquito-risk.json */; };
+		B359973B2E85FD2E009BACE3 /* Partially clear 3sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B359970B2E85FD2E009BACE3 /* Partially clear 3sec.mp4 */; };
+		B359973C2E85FD2E009BACE3 /* storm 3sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B359970C2E85FD2E009BACE3 /* storm 3sec.mp4 */; };
+		B359973D2E85FD2E009BACE3 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359971D2E85FD2E009BACE3 /* WeatherViewModel.swift */; };
+		B359973E2E85FD2E009BACE3 /* StaticHeatMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997292E85FD2E009BACE3 /* StaticHeatMapView.swift */; };
+		B359973F2E85FD2E009BACE3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997212E85FD2E009BACE3 /* HomeView.swift */; };
+		B35997402E85FD2E009BACE3 /* RiskInfoSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997272E85FD2E009BACE3 /* RiskInfoSheetView.swift */; };
+		B35997412E85FD2E009BACE3 /* RiskZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997102E85FD2E009BACE3 /* RiskZone.swift */; };
+		B35997422E85FD2E009BACE3 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997112E85FD2E009BACE3 /* WeatherData.swift */; };
+		B35997432E85FD2E009BACE3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997282E85FD2E009BACE3 /* SettingsView.swift */; };
+		B35997442E85FD2E009BACE3 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997162E85FD2E009BACE3 /* ColorTheme.swift */; };
+		B35997452E85FD2E009BACE3 /* MosquitoAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997262E85FD2E009BACE3 /* MosquitoAnimation.swift */; };
+		B35997462E85FD2E009BACE3 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997152E85FD2E009BACE3 /* ButtonStyles.swift */; };
+		B35997472E85FD2E009BACE3 /* IntroSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997222E85FD2E009BACE3 /* IntroSheetView.swift */; };
+		B35997482E85FD2E009BACE3 /* MosquitOFF.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997302E85FD2E009BACE3 /* MosquitOFF.swift */; };
+		B35997492E85FD2E009BACE3 /* HeatMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997202E85FD2E009BACE3 /* HeatMapView.swift */; };
+		B359974A2E85FD2E009BACE3 /* HeatMapInfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359971F2E85FD2E009BACE3 /* HeatMapInfoSheet.swift */; };
+		B359974B2E85FD2E009BACE3 /* MiniHeatMapPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997252E85FD2E009BACE3 /* MiniHeatMapPreview.swift */; };
+		B359974C2E85FD2E009BACE3 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997172E85FD2E009BACE3 /* LocationManager.swift */; };
+		B359974D2E85FD2E009BACE3 /* LottieViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997242E85FD2E009BACE3 /* LottieViews.swift */; };
+		B359974E2E85FD2E009BACE3 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997132E85FD2E009BACE3 /* WeatherService.swift */; };
+		B359974F2E85FD2E009BACE3 /* MosquitoRisk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997182E85FD2E009BACE3 /* MosquitoRisk.swift */; };
+		B35997502E85FD2E009BACE3 /* WeatherVideoBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359972A2E85FD2E009BACE3 /* WeatherVideoBackgroundView.swift */; };
+		B35997512E85FD2E009BACE3 /* HeatMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359971C2E85FD2E009BACE3 /* HeatMapViewModel.swift */; };
+		B35997522E85FD2E009BACE3 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997192E85FD2E009BACE3 /* NetworkMonitor.swift */; };
+		B35997532E85FD2E009BACE3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B359971A2E85FD2E009BACE3 /* NotificationManager.swift */; };
+		B35997542E85FD2E009BACE3 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997232E85FD2E009BACE3 /* LaunchScreenView.swift */; };
+		B35997582E85FD50009BACE3 /* MosquitoRiskTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997552E85FD50009BACE3 /* MosquitoRiskTest.swift */; };
+		B35997592E85FD50009BACE3 /* WeatherViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997562E85FD50009BACE3 /* WeatherViewModelTest.swift */; };
+		B359975B2E85FD7D009BACE3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B359975A2E85FD7D009BACE3 /* README.md */; };
+		B35997602E85FE54009BACE3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B359975F2E85FE54009BACE3 /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B3D19ACA2E455A06006BB7BA /* PBXContainerItemProxy */ = {
+		B3CF33402E85FA590075CED4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B32A3EF42DC962BF00D18D61 /* Project object */;
+			containerPortal = B3CF332A2E85FA590075CED4 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B32A3EFB2DC962BF00D18D61;
-			remoteInfo = MosquitOFF;
+			remoteGlobalIDString = B3CF33312E85FA590075CED4;
+			remoteInfo = MosquitOFF_NEW;
+		};
+		B3CF334A2E85FA590075CED4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B3CF332A2E85FA590075CED4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B3CF33312E85FA590075CED4;
+			remoteInfo = MosquitOFF_NEW;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B32A3EFC2DC962BF00D18D61 /* MosquitOFF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MosquitOFF.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3D19AC62E455A06006BB7BA /* MosquitOFFTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MosquitOFFTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B35997072E85FD2E009BACE3 /* Clear night 3sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Clear night 3sec.mp4"; sourceTree = "<group>"; };
+		B35997082E85FD2E009BACE3 /* cloudy 3sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "cloudy 3sec.mp4"; sourceTree = "<group>"; };
+		B35997092E85FD2E009BACE3 /* Cloudy night 3sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cloudy night 3sec.mp4"; sourceTree = "<group>"; };
+		B359970A2E85FD2E009BACE3 /* mosquito-risk.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mosquito-risk.json"; sourceTree = "<group>"; };
+		B359970B2E85FD2E009BACE3 /* Partially clear 3sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Partially clear 3sec.mp4"; sourceTree = "<group>"; };
+		B359970C2E85FD2E009BACE3 /* storm 3sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "storm 3sec.mp4"; sourceTree = "<group>"; };
+		B359970D2E85FD2E009BACE3 /* Storm Night 3sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Storm Night 3sec.mp4"; sourceTree = "<group>"; };
+		B359970E2E85FD2E009BACE3 /* sunny 3sec.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sunny 3sec.mp4"; sourceTree = "<group>"; };
+		B35997102E85FD2E009BACE3 /* RiskZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskZone.swift; sourceTree = "<group>"; };
+		B35997112E85FD2E009BACE3 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		B35997132E85FD2E009BACE3 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		B35997152E85FD2E009BACE3 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		B35997162E85FD2E009BACE3 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
+		B35997172E85FD2E009BACE3 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		B35997182E85FD2E009BACE3 /* MosquitoRisk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoRisk.swift; sourceTree = "<group>"; };
+		B35997192E85FD2E009BACE3 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		B359971A2E85FD2E009BACE3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		B359971C2E85FD2E009BACE3 /* HeatMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapViewModel.swift; sourceTree = "<group>"; };
+		B359971D2E85FD2E009BACE3 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
+		B359971F2E85FD2E009BACE3 /* HeatMapInfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapInfoSheet.swift; sourceTree = "<group>"; };
+		B35997202E85FD2E009BACE3 /* HeatMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapView.swift; sourceTree = "<group>"; };
+		B35997212E85FD2E009BACE3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B35997222E85FD2E009BACE3 /* IntroSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroSheetView.swift; sourceTree = "<group>"; };
+		B35997232E85FD2E009BACE3 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		B35997242E85FD2E009BACE3 /* LottieViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieViews.swift; sourceTree = "<group>"; };
+		B35997252E85FD2E009BACE3 /* MiniHeatMapPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniHeatMapPreview.swift; sourceTree = "<group>"; };
+		B35997262E85FD2E009BACE3 /* MosquitoAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoAnimation.swift; sourceTree = "<group>"; };
+		B35997272E85FD2E009BACE3 /* RiskInfoSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskInfoSheetView.swift; sourceTree = "<group>"; };
+		B35997282E85FD2E009BACE3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B35997292E85FD2E009BACE3 /* StaticHeatMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticHeatMapView.swift; sourceTree = "<group>"; };
+		B359972A2E85FD2E009BACE3 /* WeatherVideoBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherVideoBackgroundView.swift; sourceTree = "<group>"; };
+		B359972C2E85FD2E009BACE3 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		B359972D2E85FD2E009BACE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B359972E2E85FD2E009BACE3 /* mosquito.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = mosquito.xcassets; sourceTree = "<group>"; };
+		B359972F2E85FD2E009BACE3 /* MosquitOFF.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MosquitOFF.entitlements; sourceTree = "<group>"; };
+		B35997302E85FD2E009BACE3 /* MosquitOFF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitOFF.swift; sourceTree = "<group>"; };
+		B35997552E85FD50009BACE3 /* MosquitoRiskTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoRiskTest.swift; sourceTree = "<group>"; };
+		B35997562E85FD50009BACE3 /* WeatherViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModelTest.swift; sourceTree = "<group>"; };
+		B359975A2E85FD7D009BACE3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B3CF33322E85FA590075CED4 /* MosquitOFF_NEW.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MosquitOFF_NEW.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3CF333F2E85FA590075CED4 /* MosquitOFF_NEWTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MosquitOFF_NEWTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3CF33492E85FA590075CED4 /* MosquitOFF_NEWUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MosquitOFF_NEWUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		B3FF04AF2E789D020065C6C4 /* Exceptions for "MosquitOFF" folder in "MosquitOFF" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = B32A3EFB2DC962BF00D18D61 /* MosquitOFF */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		B32A3EFE2DC962BF00D18D61 /* MosquitOFF */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				B3FF04AF2E789D020065C6C4 /* Exceptions for "MosquitOFF" folder in "MosquitOFF" target */,
-			);
-			path = MosquitOFF;
-			sourceTree = "<group>";
-		};
-		B3D19AC72E455A06006BB7BA /* MosquitOFFTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MosquitOFFTests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
-		B32A3EF92DC962BF00D18D61 /* Frameworks */ = {
+		B3CF332F2E85FA590075CED4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3D11D922DE11A3100989E6F /* Lottie in Frameworks */,
+				B35997602E85FE54009BACE3 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B3D19AC32E455A06006BB7BA /* Frameworks */ = {
+		B3CF333C2E85FA590075CED4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3CF33462E85FA590075CED4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -70,20 +135,122 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B32A3EF32DC962BF00D18D61 = {
+		B359970F2E85FD2E009BACE3 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				B32A3EFE2DC962BF00D18D61 /* MosquitOFF */,
-				B3D19AC72E455A06006BB7BA /* MosquitOFFTests */,
-				B32A3EFD2DC962BF00D18D61 /* Products */,
+				B35997072E85FD2E009BACE3 /* Clear night 3sec.mp4 */,
+				B35997082E85FD2E009BACE3 /* cloudy 3sec.mp4 */,
+				B35997092E85FD2E009BACE3 /* Cloudy night 3sec.mp4 */,
+				B359970A2E85FD2E009BACE3 /* mosquito-risk.json */,
+				B359970B2E85FD2E009BACE3 /* Partially clear 3sec.mp4 */,
+				B359970C2E85FD2E009BACE3 /* storm 3sec.mp4 */,
+				B359970D2E85FD2E009BACE3 /* Storm Night 3sec.mp4 */,
+				B359970E2E85FD2E009BACE3 /* sunny 3sec.mp4 */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
+		B35997122E85FD2E009BACE3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B35997102E85FD2E009BACE3 /* RiskZone.swift */,
+				B35997112E85FD2E009BACE3 /* WeatherData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B35997142E85FD2E009BACE3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B35997132E85FD2E009BACE3 /* WeatherService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B359971B2E85FD2E009BACE3 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B35997152E85FD2E009BACE3 /* ButtonStyles.swift */,
+				B35997162E85FD2E009BACE3 /* ColorTheme.swift */,
+				B35997172E85FD2E009BACE3 /* LocationManager.swift */,
+				B35997182E85FD2E009BACE3 /* MosquitoRisk.swift */,
+				B35997192E85FD2E009BACE3 /* NetworkMonitor.swift */,
+				B359971A2E85FD2E009BACE3 /* NotificationManager.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		B359971E2E85FD2E009BACE3 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B359971C2E85FD2E009BACE3 /* HeatMapViewModel.swift */,
+				B359971D2E85FD2E009BACE3 /* WeatherViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B359972B2E85FD2E009BACE3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B359971F2E85FD2E009BACE3 /* HeatMapInfoSheet.swift */,
+				B35997202E85FD2E009BACE3 /* HeatMapView.swift */,
+				B35997212E85FD2E009BACE3 /* HomeView.swift */,
+				B35997222E85FD2E009BACE3 /* IntroSheetView.swift */,
+				B35997232E85FD2E009BACE3 /* LaunchScreenView.swift */,
+				B35997242E85FD2E009BACE3 /* LottieViews.swift */,
+				B35997252E85FD2E009BACE3 /* MiniHeatMapPreview.swift */,
+				B35997262E85FD2E009BACE3 /* MosquitoAnimation.swift */,
+				B35997272E85FD2E009BACE3 /* RiskInfoSheetView.swift */,
+				B35997282E85FD2E009BACE3 /* SettingsView.swift */,
+				B35997292E85FD2E009BACE3 /* StaticHeatMapView.swift */,
+				B359972A2E85FD2E009BACE3 /* WeatherVideoBackgroundView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B35997312E85FD2E009BACE3 /* MosquitOFF */ = {
+			isa = PBXGroup;
+			children = (
+				B359970F2E85FD2E009BACE3 /* Animations */,
+				B35997122E85FD2E009BACE3 /* Models */,
+				B35997142E85FD2E009BACE3 /* Services */,
+				B359971B2E85FD2E009BACE3 /* Utils */,
+				B359971E2E85FD2E009BACE3 /* ViewModels */,
+				B359972B2E85FD2E009BACE3 /* Views */,
+				B359972C2E85FD2E009BACE3 /* AppIcon.icon */,
+				B359972D2E85FD2E009BACE3 /* Info.plist */,
+				B359972E2E85FD2E009BACE3 /* mosquito.xcassets */,
+				B359972F2E85FD2E009BACE3 /* MosquitOFF.entitlements */,
+				B35997302E85FD2E009BACE3 /* MosquitOFF.swift */,
+			);
+			path = MosquitOFF;
+			sourceTree = "<group>";
+		};
+		B35997572E85FD50009BACE3 /* MosquitOFFTests */ = {
+			isa = PBXGroup;
+			children = (
+				B35997552E85FD50009BACE3 /* MosquitoRiskTest.swift */,
+				B35997562E85FD50009BACE3 /* WeatherViewModelTest.swift */,
+			);
+			path = MosquitOFFTests;
+			sourceTree = "<group>";
+		};
+		B3CF33292E85FA590075CED4 = {
+			isa = PBXGroup;
+			children = (
+				B359975A2E85FD7D009BACE3 /* README.md */,
+				B35997572E85FD50009BACE3 /* MosquitOFFTests */,
+				B35997312E85FD2E009BACE3 /* MosquitOFF */,
+				B3CF33332E85FA590075CED4 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		B32A3EFD2DC962BF00D18D61 /* Products */ = {
+		B3CF33332E85FA590075CED4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B32A3EFC2DC962BF00D18D61 /* MosquitOFF.app */,
-				B3D19AC62E455A06006BB7BA /* MosquitOFFTests.xctest */,
+				B3CF33322E85FA590075CED4 /* MosquitOFF_NEW.app */,
+				B3CF333F2E85FA590075CED4 /* MosquitOFF_NEWTests.xctest */,
+				B3CF33492E85FA590075CED4 /* MosquitOFF_NEWUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,103 +258,140 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B32A3EFB2DC962BF00D18D61 /* MosquitOFF */ = {
+		B3CF33312E85FA590075CED4 /* MosquitOFF_NEW */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B32A3F0B2DC962C000D18D61 /* Build configuration list for PBXNativeTarget "MosquitOFF" */;
+			buildConfigurationList = B3CF33532E85FA590075CED4 /* Build configuration list for PBXNativeTarget "MosquitOFF_NEW" */;
 			buildPhases = (
-				B32A3EF82DC962BF00D18D61 /* Sources */,
-				B32A3EF92DC962BF00D18D61 /* Frameworks */,
-				B32A3EFA2DC962BF00D18D61 /* Resources */,
+				B3CF332E2E85FA590075CED4 /* Sources */,
+				B3CF332F2E85FA590075CED4 /* Frameworks */,
+				B3CF33302E85FA590075CED4 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				B32A3EFE2DC962BF00D18D61 /* MosquitOFF */,
-			);
-			name = MosquitOFF;
+			name = MosquitOFF_NEW;
 			packageProductDependencies = (
-				B3D11D912DE11A3100989E6F /* Lottie */,
+				B359975F2E85FE54009BACE3 /* Lottie */,
 			);
-			productName = MosquitOFF;
-			productReference = B32A3EFC2DC962BF00D18D61 /* MosquitOFF.app */;
+			productName = MosquitOFF_NEW;
+			productReference = B3CF33322E85FA590075CED4 /* MosquitOFF_NEW.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B3D19AC52E455A06006BB7BA /* MosquitOFFTests */ = {
+		B3CF333E2E85FA590075CED4 /* MosquitOFF_NEWTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B3D19ACE2E455A06006BB7BA /* Build configuration list for PBXNativeTarget "MosquitOFFTests" */;
+			buildConfigurationList = B3CF33562E85FA590075CED4 /* Build configuration list for PBXNativeTarget "MosquitOFF_NEWTests" */;
 			buildPhases = (
-				B3D19AC22E455A06006BB7BA /* Sources */,
-				B3D19AC32E455A06006BB7BA /* Frameworks */,
-				B3D19AC42E455A06006BB7BA /* Resources */,
+				B3CF333B2E85FA590075CED4 /* Sources */,
+				B3CF333C2E85FA590075CED4 /* Frameworks */,
+				B3CF333D2E85FA590075CED4 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				B3D19ACB2E455A06006BB7BA /* PBXTargetDependency */,
+				B3CF33412E85FA590075CED4 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				B3D19AC72E455A06006BB7BA /* MosquitOFFTests */,
-			);
-			name = MosquitOFFTests;
+			name = MosquitOFF_NEWTests;
 			packageProductDependencies = (
 			);
-			productName = MosquitOFFTests;
-			productReference = B3D19AC62E455A06006BB7BA /* MosquitOFFTests.xctest */;
+			productName = MosquitOFF_NEWTests;
+			productReference = B3CF333F2E85FA590075CED4 /* MosquitOFF_NEWTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B3CF33482E85FA590075CED4 /* MosquitOFF_NEWUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3CF33592E85FA590075CED4 /* Build configuration list for PBXNativeTarget "MosquitOFF_NEWUITests" */;
+			buildPhases = (
+				B3CF33452E85FA590075CED4 /* Sources */,
+				B3CF33462E85FA590075CED4 /* Frameworks */,
+				B3CF33472E85FA590075CED4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B3CF334B2E85FA590075CED4 /* PBXTargetDependency */,
+			);
+			name = MosquitOFF_NEWUITests;
+			packageProductDependencies = (
+			);
+			productName = MosquitOFF_NEWUITests;
+			productReference = B3CF33492E85FA590075CED4 /* MosquitOFF_NEWUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		B32A3EF42DC962BF00D18D61 /* Project object */ = {
+		B3CF332A2E85FA590075CED4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
-					B32A3EFB2DC962BF00D18D61 = {
-						CreatedOnToolsVersion = 16.2;
+					B3CF33312E85FA590075CED4 = {
+						CreatedOnToolsVersion = 26.0;
 					};
-					B3D19AC52E455A06006BB7BA = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = B32A3EFB2DC962BF00D18D61;
+					B3CF333E2E85FA590075CED4 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = B3CF33312E85FA590075CED4;
+					};
+					B3CF33482E85FA590075CED4 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = B3CF33312E85FA590075CED4;
 					};
 				};
 			};
-			buildConfigurationList = B32A3EF72DC962BF00D18D61 /* Build configuration list for PBXProject "MosquitOFF" */;
+			buildConfigurationList = B3CF332D2E85FA590075CED4 /* Build configuration list for PBXProject "MosquitOFF_NEW" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = B32A3EF32DC962BF00D18D61;
+			mainGroup = B3CF33292E85FA590075CED4;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				B3D11D902DE11A3100989E6F /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				B359975E2E85FE54009BACE3 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = B32A3EFD2DC962BF00D18D61 /* Products */;
+			productRefGroup = B3CF33332E85FA590075CED4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B32A3EFB2DC962BF00D18D61 /* MosquitOFF */,
-				B3D19AC52E455A06006BB7BA /* MosquitOFFTests */,
+				B3CF33312E85FA590075CED4 /* MosquitOFF_NEW */,
+				B3CF333E2E85FA590075CED4 /* MosquitOFF_NEWTests */,
+				B3CF33482E85FA590075CED4 /* MosquitOFF_NEWUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B32A3EFA2DC962BF00D18D61 /* Resources */ = {
+		B3CF33302E85FA590075CED4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B35997332E85FD2E009BACE3 /* sunny 3sec.mp4 in Resources */,
+				B35997342E85FD2E009BACE3 /* Cloudy night 3sec.mp4 in Resources */,
+				B35997352E85FD2E009BACE3 /* cloudy 3sec.mp4 in Resources */,
+				B35997362E85FD2E009BACE3 /* mosquito.xcassets in Resources */,
+				B35997372E85FD2E009BACE3 /* Clear night 3sec.mp4 in Resources */,
+				B359975B2E85FD7D009BACE3 /* README.md in Resources */,
+				B35997382E85FD2E009BACE3 /* Storm Night 3sec.mp4 in Resources */,
+				B35997392E85FD2E009BACE3 /* AppIcon.icon in Resources */,
+				B359973A2E85FD2E009BACE3 /* mosquito-risk.json in Resources */,
+				B359973B2E85FD2E009BACE3 /* Partially clear 3sec.mp4 in Resources */,
+				B359973C2E85FD2E009BACE3 /* storm 3sec.mp4 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3CF333D2E85FA590075CED4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B3D19AC42E455A06006BB7BA /* Resources */ = {
+		B3CF33472E85FA590075CED4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -197,14 +401,47 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B32A3EF82DC962BF00D18D61 /* Sources */ = {
+		B3CF332E2E85FA590075CED4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B359973D2E85FD2E009BACE3 /* WeatherViewModel.swift in Sources */,
+				B359973E2E85FD2E009BACE3 /* StaticHeatMapView.swift in Sources */,
+				B359973F2E85FD2E009BACE3 /* HomeView.swift in Sources */,
+				B35997402E85FD2E009BACE3 /* RiskInfoSheetView.swift in Sources */,
+				B35997412E85FD2E009BACE3 /* RiskZone.swift in Sources */,
+				B35997422E85FD2E009BACE3 /* WeatherData.swift in Sources */,
+				B35997432E85FD2E009BACE3 /* SettingsView.swift in Sources */,
+				B35997442E85FD2E009BACE3 /* ColorTheme.swift in Sources */,
+				B35997452E85FD2E009BACE3 /* MosquitoAnimation.swift in Sources */,
+				B35997462E85FD2E009BACE3 /* ButtonStyles.swift in Sources */,
+				B35997472E85FD2E009BACE3 /* IntroSheetView.swift in Sources */,
+				B35997482E85FD2E009BACE3 /* MosquitOFF.swift in Sources */,
+				B35997492E85FD2E009BACE3 /* HeatMapView.swift in Sources */,
+				B359974A2E85FD2E009BACE3 /* HeatMapInfoSheet.swift in Sources */,
+				B359974B2E85FD2E009BACE3 /* MiniHeatMapPreview.swift in Sources */,
+				B359974C2E85FD2E009BACE3 /* LocationManager.swift in Sources */,
+				B359974D2E85FD2E009BACE3 /* LottieViews.swift in Sources */,
+				B359974E2E85FD2E009BACE3 /* WeatherService.swift in Sources */,
+				B359974F2E85FD2E009BACE3 /* MosquitoRisk.swift in Sources */,
+				B35997502E85FD2E009BACE3 /* WeatherVideoBackgroundView.swift in Sources */,
+				B35997512E85FD2E009BACE3 /* HeatMapViewModel.swift in Sources */,
+				B35997522E85FD2E009BACE3 /* NetworkMonitor.swift in Sources */,
+				B35997532E85FD2E009BACE3 /* NotificationManager.swift in Sources */,
+				B35997542E85FD2E009BACE3 /* LaunchScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B3D19AC22E455A06006BB7BA /* Sources */ = {
+		B3CF333B2E85FA590075CED4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B35997582E85FD50009BACE3 /* MosquitoRiskTest.swift in Sources */,
+				B35997592E85FD50009BACE3 /* WeatherViewModelTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3CF33452E85FA590075CED4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -214,15 +451,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B3D19ACB2E455A06006BB7BA /* PBXTargetDependency */ = {
+		B3CF33412E85FA590075CED4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B32A3EFB2DC962BF00D18D61 /* MosquitOFF */;
-			targetProxy = B3D19ACA2E455A06006BB7BA /* PBXContainerItemProxy */;
+			target = B3CF33312E85FA590075CED4 /* MosquitOFF_NEW */;
+			targetProxy = B3CF33402E85FA590075CED4 /* PBXContainerItemProxy */;
+		};
+		B3CF334B2E85FA590075CED4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B3CF33312E85FA590075CED4 /* MosquitOFF_NEW */;
+			targetProxy = B3CF334A2E85FA590075CED4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		B32A3F092DC962C000D18D61 /* Debug */ = {
+		B3CF33512E85FA590075CED4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -257,6 +499,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = R47LKKYLZ9;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -274,16 +517,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		B32A3F0A2DC962C000D18D61 /* Release */ = {
+		B3CF33522E85FA590075CED4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -318,6 +563,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = R47LKKYLZ9;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -329,100 +575,83 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		B32A3F0C2DC962C000D18D61 /* Debug */ = {
+		B3CF33542E85FA590075CED4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = MosquitOFF/MosquitOFF.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MosquitOFF/Preview Content\"";
 				DEVELOPMENT_TEAM = R47LKKYLZ9;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MosquitOFF/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Usamos tu ubicación para evaluar el riesgo de mosquitos en tu zona.";
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = AppIcon;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.astorluduena.MosquitOFF;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.astorluduena.MosquitOFF-NEW";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 2.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		B32A3F0D2DC962C000D18D61 /* Release */ = {
+		B3CF33552E85FA590075CED4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = MosquitOFF/MosquitOFF.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MosquitOFF/Preview Content\"";
 				DEVELOPMENT_TEAM = R47LKKYLZ9;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MosquitOFF/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Usamos tu ubicación para evaluar el riesgo de mosquitos en tu zona.";
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = AppIcon;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.astorluduena.MosquitOFF;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.astorluduena.MosquitOFF-NEW";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 2.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		B3D19ACC2E455A06006BB7BA /* Debug */ = {
+		B3CF33572E85FA590075CED4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -430,22 +659,21 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R47LKKYLZ9;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.astorluduena.MosquitOFFTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.astorluduena.MosquitOFF-NEWTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MosquitOFF.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MosquitOFF";
-				XROS_DEPLOYMENT_TARGET = 2.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MosquitOFF_NEW.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MosquitOFF_NEW";
 			};
 			name = Debug;
 		};
-		B3D19ACD2E455A06006BB7BA /* Release */ = {
+		B3CF33582E85FA590075CED4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -453,47 +681,95 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R47LKKYLZ9;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.astorluduena.MosquitOFFTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.astorluduena.MosquitOFF-NEWTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MosquitOFF.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MosquitOFF";
-				XROS_DEPLOYMENT_TARGET = 2.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MosquitOFF_NEW.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MosquitOFF_NEW";
+			};
+			name = Release;
+		};
+		B3CF335A2E85FA590075CED4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R47LKKYLZ9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.astorluduena.MosquitOFF-NEWUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MosquitOFF_NEW;
+			};
+			name = Debug;
+		};
+		B3CF335B2E85FA590075CED4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R47LKKYLZ9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.astorluduena.MosquitOFF-NEWUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MosquitOFF_NEW;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B32A3EF72DC962BF00D18D61 /* Build configuration list for PBXProject "MosquitOFF" */ = {
+		B3CF332D2E85FA590075CED4 /* Build configuration list for PBXProject "MosquitOFF_NEW" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B32A3F092DC962C000D18D61 /* Debug */,
-				B32A3F0A2DC962C000D18D61 /* Release */,
+				B3CF33512E85FA590075CED4 /* Debug */,
+				B3CF33522E85FA590075CED4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B32A3F0B2DC962C000D18D61 /* Build configuration list for PBXNativeTarget "MosquitOFF" */ = {
+		B3CF33532E85FA590075CED4 /* Build configuration list for PBXNativeTarget "MosquitOFF_NEW" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B32A3F0C2DC962C000D18D61 /* Debug */,
-				B32A3F0D2DC962C000D18D61 /* Release */,
+				B3CF33542E85FA590075CED4 /* Debug */,
+				B3CF33552E85FA590075CED4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B3D19ACE2E455A06006BB7BA /* Build configuration list for PBXNativeTarget "MosquitOFFTests" */ = {
+		B3CF33562E85FA590075CED4 /* Build configuration list for PBXNativeTarget "MosquitOFF_NEWTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B3D19ACC2E455A06006BB7BA /* Debug */,
-				B3D19ACD2E455A06006BB7BA /* Release */,
+				B3CF33572E85FA590075CED4 /* Debug */,
+				B3CF33582E85FA590075CED4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3CF33592E85FA590075CED4 /* Build configuration list for PBXNativeTarget "MosquitOFF_NEWUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B3CF335A2E85FA590075CED4 /* Debug */,
+				B3CF335B2E85FA590075CED4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -501,23 +777,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B3D11D902DE11A3100989E6F /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+		B359975E2E85FE54009BACE3 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			repositoryURL = "https://github.com/airbnb/lottie-spm";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.5.1;
+				minimumVersion = 4.5.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B3D11D912DE11A3100989E6F /* Lottie */ = {
+		B359975F2E85FE54009BACE3 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B3D11D902DE11A3100989E6F /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			package = B359975E2E85FE54009BACE3 /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = B32A3EF42DC962BF00D18D61 /* Project object */;
+	rootObject = B3CF332A2E85FA590075CED4 /* Project object */;
 }

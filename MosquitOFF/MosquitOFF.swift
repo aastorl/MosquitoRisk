@@ -17,7 +17,7 @@ struct MosquitOFF: App {
 
     var body: some Scene {
         WindowGroup {
-            LaunchScreenView()
+            HomeView()
         }
     }
 }

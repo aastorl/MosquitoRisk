@@ -1,6 +1,6 @@
 //
 //  StaticHeatMapView.swift
-//  MosquitOFF
+//  
 //
 //  Created by Astor Ludueña on 04/06/2025.
 //
@@ -13,19 +13,20 @@ struct StaticHeatMapView: UIViewRepresentable {
     let radius: CLLocationDistance
     let riskLevels: [MosquitoRisk.RiskLevel]
     let center: CLLocationCoordinate2D
+    let userLocation: CLLocationCoordinate2D?
+    let locationNames: [String] // 👈 Nuevo parámetro para los nombres
     @Binding var shouldCenterMap: Bool
 
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
-
-        // Mostrar la ubicación del usuario con un pin azul
-        let userAnnotation = MKPointAnnotation()
-        userAnnotation.coordinate = center
-        userAnnotation.title = "Tu ubicación"
-        mapView.addAnnotation(userAnnotation)
-
-        // Centrar el mapa en la ubicación del usuario
+        mapView.showsUserLocation = true
+        
+        // Configurar zoom y desplazamiento
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+        
+        // Centrar en Rosario
         let region = MKCoordinateRegion(
             center: center,
             span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12)
@@ -35,13 +36,19 @@ struct StaticHeatMapView: UIViewRepresentable {
         // Agregar círculos de riesgo
         for (index, coordinate) in coordinates.enumerated() {
             let circle = MKCircle(center: coordinate, radius: radius)
-            circle.title = riskLevels[index].rawValue // Usamos title para identificar el nivel
+            circle.title = riskLevels[index].rawValue
             mapView.addOverlay(circle)
+            
+            // AGREGAR ANOTACIÓN CON NOMBRE
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = locationNames[index] // Usar el nombre correspondiente
+            mapView.addAnnotation(annotation)
         }
 
         return mapView
     }
-
+    
     func updateUIView(_ mapView: MKMapView, context: Context) {
         if shouldCenterMap {
             let region = MKCoordinateRegion(
@@ -50,13 +57,12 @@ struct StaticHeatMapView: UIViewRepresentable {
             )
             mapView.setRegion(region, animated: true)
             
-            // Volvemos a false después de centrar
             DispatchQueue.main.async {
                 shouldCenterMap = false
             }
         }
     }
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }
@@ -83,21 +89,42 @@ struct StaticHeatMapView: UIViewRepresentable {
             renderer.strokeColor = .clear
             return renderer
         }
-
-        // Mostrar el pin del usuario
+        
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            let identifier = "UserLocationPin"
-            var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-
-            if view == nil {
-                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                view?.canShowCallout = true
-                (view as? MKPinAnnotationView)?.pinTintColor = .blue
-            } else {
-                view?.annotation = annotation
+            if annotation is MKUserLocation {
+                return nil
             }
-
-            return view
+            
+            let identifier = "LocationPin"
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            
+            if annotationView == nil {
+                annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                annotationView?.canShowCallout = true
+            } else {
+                annotationView?.annotation = annotation
+            }
+            
+            if let markerView = annotationView as? MKMarkerAnnotationView,
+               let title = annotation.title ?? "" {
+                
+                // LISTA EXPLÍCITA DE ISLAS
+                let islas = ["Banquito de San Andres", "Isla La Invernada", "Paraná Viejo"]
+                
+                if islas.contains(title) {
+                    // ISLAS - Palmera color azul/verde
+                    markerView.markerTintColor = .systemTeal
+                    markerView.glyphImage = UIImage(systemName: "beach.umbrella.fill")
+                } else {
+                    // PARQUES - Árbol color verde
+                    markerView.markerTintColor = .systemGreen
+                    markerView.glyphImage = UIImage(systemName: "tree.fill")
+                }
+                
+                markerView.glyphTintColor = .white
+            }
+            
+            return annotationView
         }
     }
 }

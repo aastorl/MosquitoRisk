@@ -17,12 +17,12 @@ final class NotificationManager {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("❌ Error al solicitar permiso: \(error.localizedDescription)")
+                    print("Error al solicitar permiso: \(error.localizedDescription)")
                 } else if granted {
-                    print("✅ Permiso concedido")
+                    print("Permiso concedido")
                     self.setupNotificationCategories()
                 } else {
-                    print("❌ Permiso denegado por el usuario")
+                    print("Permiso denegado por el usuario")
                 }
             }
         }
@@ -72,14 +72,14 @@ final class NotificationManager {
         if let lastTime = lastNotificationTime {
             let timeSinceLastNotification = now.timeIntervalSince(lastTime)
             guard timeSinceLastNotification > 1800 else { // 30 minutos = 1800 segundos
-                print("⏰ Notificación ya enviada hace poco. Esperando...")
+                print("Notificación ya enviada hace poco. Esperando...")
                 return
             }
         }
 
         checkNotificationPermission { [weak self] isAuthorized in
             guard isAuthorized else {
-                print("❌ Notificaciones no autorizadas en el sistema")
+                print("Notificaciones no autorizadas en el sistema")
                 return
             }
             
@@ -94,7 +94,7 @@ final class NotificationManager {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["mosquitoRiskAlert"])
         
         let content = UNMutableNotificationContent()
-        content.title = "⚠️ Riesgo alto de mosquitos"
+        content.title = "Riesgo alto de mosquitos"
         content.body = createHighRiskMessage(weather: weather)
         content.sound = .default
         content.categoryIdentifier = "MOSQUITO_RISK_CATEGORY"
@@ -110,9 +110,9 @@ final class NotificationManager {
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("❌ Error al agendar notificación: \(error.localizedDescription)")
+                print("Error al agendar notificación: \(error.localizedDescription)")
             } else {
-                print("📢 Notificación de riesgo alto programada")
+                print("Notificación de riesgo alto programada")
             }
         }
     }
@@ -151,20 +151,20 @@ final class NotificationManager {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         center.removeAllDeliveredNotifications()
-        print("🔕 Todas las notificaciones eliminadas")
+        print("Todas las notificaciones eliminadas")
     }
     
     // MARK: - Métodos para controlar desde la UI
     
     func enableNotifications() {
         UserDefaults.standard.set(true, forKey: "notificationsEnabled")
-        print("✅ Notificaciones habilitadas por el usuario")
+        print("Notificaciones habilitadas por el usuario")
     }
     
     func disableNotifications() {
         UserDefaults.standard.set(false, forKey: "notificationsEnabled")
         removeAllNotifications()
-        print("🔕 Notificaciones deshabilitadas por el usuario")
+        print("Notificaciones deshabilitadas por el usuario")
     }
     
     func areNotificationsEnabledInApp() -> Bool {
@@ -176,7 +176,7 @@ final class NotificationManager {
         lastRiskLevel = nil
         lastNotificationTime = nil
         lastLogTime = nil
-        print("🔄 Throttling reseteado")
+        print("Throttling reseteado")
     }
     
     // MARK: - Verificar estado de permisos del sistema

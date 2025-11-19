@@ -1,6 +1,6 @@
 //
 //  IntroSheetView.swift
-//  MosquitOFF
+//  
 //
 //  Created by Astor Ludueña on 16/06/2025.
 //
@@ -27,7 +27,7 @@ struct IntroSheetView: View {
             VStack(spacing: 24) {
                 // Header
                 VStack(spacing: 12) {
-                    Text("¡Bienvenido a MosquitOFF!")
+                    Text("¡Bienvenido a MosquitoRisk!")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -39,7 +39,7 @@ struct IntroSheetView: View {
                 
                 // Main content
                 VStack(spacing: 20) {
-                    Text("Esta app funciona globalmente para monitorear riesgo de mosquitos. El mapa detallado está disponible únicamente en Rosario, Argentina.")
+                    Text("Esta app está optimizada específicamente para el clima subtropical húmedo de Rosario, Santa Fe. Los cálculos de riesgo consideran las condiciones típicas de la región.")
                         .font(.body)
                         .foregroundColor(.white.opacity(0.9))
                         .multilineTextAlignment(.center)
@@ -49,38 +49,16 @@ struct IntroSheetView: View {
                     // Features info card
                     VStack(spacing: 12) {
                         HStack(spacing: 8) {
-                            Image(systemName: "globe")
+                            Image(systemName: "location.circle.fill")
                                 .font(.title3)
                                 .foregroundColor(.white)
                                 .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
                             
-                            Text("Cobertura")
+                            Text("Optimizado para Rosario y alrededores")
                                 .font(.headline)
                                 .fontWeight(.semibold)
                                 .foregroundColor(.white)
                                 .shadow(color: .black.opacity(0.4), radius: 1, x: 0, y: 1)
-                        }
-                        
-                        VStack(spacing: 8) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
-                                    .font(.callout)
-                                Text("Evaluación de riesgo: Global")
-                                    .font(.callout)
-                                    .foregroundColor(.white.opacity(0.9))
-                                Spacer()
-                            }
-                            
-                            HStack(spacing: 8) {
-                                Image(systemName: "map.circle.fill")
-                                    .foregroundColor(.blue)
-                                    .font(.callout)
-                                Text("Mapa detallado: Solo Rosario")
-                                    .font(.callout)
-                                    .foregroundColor(.white.opacity(0.9))
-                                Spacer()
-                            }
                         }
                     }
                     .padding(.vertical, 16)
@@ -98,7 +76,7 @@ struct IntroSheetView: View {
                     .padding(.horizontal, 24)
                 }
                 
-                // Close button - AGRANDADO
+                // Close button
                 Button(action: onDismiss) {
                     Text("Entendido")
                         .font(.headline)
@@ -122,6 +100,9 @@ struct IntroSheetView: View {
                 
             }
         }
-        .presentationDetents([.fraction(0.5)])
+        .presentationDetents([.fraction(0.59)])
     }
 }
+
+
+

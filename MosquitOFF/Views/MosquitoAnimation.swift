@@ -1,6 +1,6 @@
 //
 //  MosquitoAnimation.swift - Versión Optimizada
-//  MosquitOFF
+//  
 //
 
 import SwiftUI

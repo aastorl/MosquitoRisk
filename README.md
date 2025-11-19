@@ -1,6 +1,6 @@
-# 🦟 MosquitOFF
+# 🦟 MosquitoRisk
 
-MosquitOFF is a SwiftUI-based iOS application that helps track mosquito sightings and assess dengue risk based on local weather conditions in Rosario, Argentina.
+MosquitoRisk is a SwiftUI-based iOS application that helps track mosquito sightings and assess dengue risk based on local weather conditions in Rosario, Argentina.
 
 ## 🌟 Features
 

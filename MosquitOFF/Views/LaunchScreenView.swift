@@ -1,8 +1,9 @@
 //
-//  LaunchScreenView.swift - Coordinada con WeatherViewModel
+//  LaunchScreenView.swift -
 //
-
+// !!! No implementado ya que tuve que reemplazarlo por el launchScreen estandar de Apple
 import SwiftUI
+internal import CoreLocation
 
 struct LaunchScreenView: View {
     @StateObject private var WViewModel = WeatherViewModel()
@@ -46,7 +47,7 @@ struct LaunchScreenView: View {
                             .fill(
                                 RadialGradient(
                                     gradient: Gradient(colors: [
-                                        Color.white.opacity(0.4),
+                                        Color.black.opacity(0),
                                         Color.clear
                                     ]),
                                     center: .center,
@@ -134,7 +135,7 @@ struct LaunchScreenView: View {
             backgroundOpacity = 1.0
         }
         
-        // 2. Logo bounce in después de 0.4s
+        // 2. Logo bounce después de 0.4s
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             withAnimation(.spring(response: 1.0, dampingFraction: 0.6, blendDuration: 0)) {
                 logoScale = 1.0

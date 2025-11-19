@@ -1,11 +1,12 @@
 //
 //  HomeView.swift
-//  MosquitOFF
+//  
 //
 
 import SwiftUI
 import MapKit
-import CoreLocation
+internal import CoreLocation
+import Combine
 
 struct HomeView: View {
     @StateObject private var WViewModel = WeatherViewModel()
@@ -15,6 +16,7 @@ struct HomeView: View {
     @State private var showFallbackView = false
     @State private var showLocationDeniedView = false
     @StateObject private var networkMonitor = NetworkMonitor()
+    @State private var retryWorkItem: DispatchWorkItem?  // 👈 NUEVO: Para cancelar el timer
     
     var body: some View {
         NavigationStack {
@@ -57,7 +59,7 @@ struct HomeView: View {
                                         .multilineTextAlignment(.center)
                                         .shadow(radius: 1)
                                     
-                                    Text("MosquitOFF necesita tu ubicación para evaluar el riesgo de mosquitos en tu zona.")
+                                    Text("MosquitoRisk necesita tu ubicación para evaluar el riesgo de mosquitos en tu zona.")
                                         .font(.body)
                                         .foregroundColor(.white.opacity(0.9))
                                         .multilineTextAlignment(.center)
@@ -96,7 +98,8 @@ struct HomeView: View {
                             .padding(.horizontal, 24)
                         }
                     }
-                    else if showFallbackView {
+                    else if showFallbackView || WViewModel.hasNetworkError {
+                        // 👆 CAMBIO: Agregar condición hasNetworkError
                         // Pantalla error sin internet - FULLSCREEN
                         ZStack {
                             LinearGradient(
@@ -142,8 +145,19 @@ struct HomeView: View {
                                 .padding(.horizontal, 32)
                                 
                                 Button {
-                                    WViewModel.retryFetch()
+                                    // 👇 CAMBIO: Cancelar timer anterior y crear uno nuevo
+                                    retryWorkItem?.cancel()
                                     showFallbackView = false
+                                    WViewModel.retryFetch()
+                                    
+                                    // Nuevo timer de 8 segundos
+                                    let workItem = DispatchWorkItem {
+                                        if WViewModel.weather == nil && !showLocationDeniedView {
+                                            showFallbackView = true
+                                        }
+                                    }
+                                    retryWorkItem = workItem
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: workItem)
                                 } label: {
                                     HStack(spacing: 8) {
                                         Image(systemName: "arrow.clockwise")
@@ -184,7 +198,7 @@ struct HomeView: View {
                         }
                         
                         VStack(spacing: 25) {
-                            Text("MosquitOFF")
+                            Text("MosquitoRisk")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)
@@ -197,7 +211,7 @@ struct HomeView: View {
                                 if let weather = WViewModel.weather {
                                     VStack(spacing: 8) {
                                         HStack(spacing: 6) {
-                                            Text("Riesgo de Mosquitos")
+                                            Text("Riesgo de Mosquitos en tu Ubicación")
                                                 .foregroundColor(.white.opacity(0.8))
                                                 .font(.headline)
                                                 .shadow(radius: 3)
@@ -227,21 +241,18 @@ struct HomeView: View {
                                     }
                                     .padding(.horizontal)
                                     
-                                    // BOTÓN DE MAPA CON DISEÑO PROFESIONAL
+                                    // BOTÓN DE MAPA
                                     NavigationLink(destination: HeatMapView()) {
                                         ZStack {
-                                            // Preview del mapa en el fondo
                                             MiniHeatMapPreview()
                                                 .frame(height: 200)
                                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                                                 .opacity(0.1)
                                             
-                                            // Overlay con material glass sutil
                                             RoundedRectangle(cornerRadius: 20)
                                                 .fill(.ultraThinMaterial)
                                                 .opacity(0.85)
                                             
-                                            // Gradient overlay para mejorar legibilidad
                                             RoundedRectangle(cornerRadius: 20)
                                                 .fill(
                                                     LinearGradient(
@@ -255,9 +266,7 @@ struct HomeView: View {
                                                     )
                                                 )
                                             
-                                            // Contenido del botón
                                             VStack(spacing: 20) {
-                                                // Icono principal
                                                 ZStack {
                                                     Circle()
                                                         .fill(.regularMaterial)
@@ -282,7 +291,6 @@ struct HomeView: View {
                                                         .shadow(color: .black.opacity(0.5), radius: 2, x: 0, y: 1)
                                                 }
                                                 
-                                                // Información del botón
                                                 VStack(spacing: 12) {
                                                     VStack(spacing: 4) {
                                                         Text("Mapa de Riesgo")
@@ -297,7 +305,6 @@ struct HomeView: View {
                                                             .shadow(color: .black.opacity(0.5), radius: 1, x: 0, y: 1)
                                                     }
                                                     
-                                                    // Indicador de acción
                                                     HStack(spacing: 8) {
                                                         Text("Explorar mapa")
                                                             .font(.callout)
@@ -334,7 +341,6 @@ struct HomeView: View {
                                     .buttonStyle(.plain)
                                     .padding(.top, 8)
                                 } else {
-                                    // Vista vacía - solo espera los datos sin mostrar nada
                                     EmptyView()
                                 }
                             }
@@ -354,11 +360,14 @@ struct HomeView: View {
                         showFallbackView = true
                     }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                        if WViewModel.weather == nil && networkMonitor.isConnected && !isLocationDenied() {
+                    // 👇 CAMBIO: Usar DispatchWorkItem para poder cancelarlo
+                    let workItem = DispatchWorkItem {
+                        if WViewModel.weather == nil && !showLocationDeniedView {
                             showFallbackView = true
                         }
                     }
+                    retryWorkItem = workItem
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 8, execute: workItem)
                 }
                 .onChange(of: WViewModel.authorizationStatus) { newStatus in
                     updateViewsBasedOnStatus(newStatus)
@@ -373,6 +382,12 @@ struct HomeView: View {
                         if !isLocationDenied() {
                             WViewModel.retryFetch()
                         }
+                    }
+                }
+                .onChange(of: WViewModel.hasNetworkError) { hasError in
+                    // NUEVO: Detectar errores HTTP
+                    if hasError {
+                        showFallbackView = true
                     }
                 }
                 .onChange(of: WViewModel.mosquitoRisk) { newRisk in
@@ -397,6 +412,7 @@ struct HomeView: View {
             IntroSheetView {
                 hasSeenIntro = true
             }
+            .interactiveDismissDisabled(true)
         }
         .sheet(isPresented: $showRiskInfo) {
             RiskInfoSheetView()
@@ -422,7 +438,6 @@ struct HomeView: View {
     }
 }
 
-// WEATHERINFOCARD MEJORADA CON MEJOR TRANSPARENCIA
 struct WeatherInfoCard: View {
     let icon: String
     let label: String
@@ -450,12 +465,10 @@ struct WeatherInfoCard: View {
         .padding()
         .background(
             ZStack {
-                // Fondo base más transparente
                 RoundedRectangle(cornerRadius: 16)
                     .fill(.ultraThinMaterial)
                     .opacity(0.7)
                 
-                // Overlay adicional para mejor contraste
                 RoundedRectangle(cornerRadius: 16)
                     .fill(
                         LinearGradient(
@@ -490,12 +503,6 @@ struct WeatherInfoCard: View {
             y: 4
         )
     }
-}
-
-
-
-#Preview() {
-    HomeView()
 }
 
 

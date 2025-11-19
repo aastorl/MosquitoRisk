@@ -1,6 +1,6 @@
 //
 //  WeatherViewModel.swift
-//  MosquitOFF
+//  
 //
 //  Created by Astor Ludueña  on 05/05/2025.
 //
@@ -8,17 +8,19 @@
 import Foundation
 import Combine
 import SwiftUI
-import CoreLocation
+internal import CoreLocation
 
 class WeatherViewModel: ObservableObject {
     @Published var weather: WeatherData?
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
+    @Published var hasNetworkError: Bool = false  // NUEVO: Estado de error de red
     
     private let weatherService = WeatherService()
     private var locationManager = LocationManager()
     private var cancellables = Set<AnyCancellable>()
     private var lastCoordinate: (lat: Double, lon: Double)?
     private var lastRiskLevel: MosquitoRisk.RiskLevel?
+    private var fetchTimer: Timer?  // NUEVO: Timer para timeout
     
     init() {
         // Solicitar permisos de notificaciones al inicializar
@@ -49,25 +51,53 @@ class WeatherViewModel: ObservableObject {
     }
     
     func fetchWeather(lat: Double, lon: Double) {
+        // NUEVO: Resetear error al intentar fetch
+        hasNetworkError = false
+        
+        // NUEVO: Iniciar timeout de 10 segundos
+        fetchTimer?.invalidate()
+        fetchTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [weak self] _ in
+            guard let self = self else { return }
+            if self.weather == nil {
+                print("⚠️ Timeout: No se recibieron datos del clima en 10 segundos")
+                DispatchQueue.main.async {
+                    self.hasNetworkError = true
+                }
+            }
+        }
+        
         weatherService.fetchWeather(lat: lat, lon: lon) { [weak self] weather in
+            guard let self = self else { return }
+            
+            // NUEVO: Invalidar timer si la respuesta llegó
+            self.fetchTimer?.invalidate()
+            
             DispatchQueue.main.async {
-                guard let self = self, let weather = weather else { return }
-                self.weather = weather
-                
-                // Calcular riesgo y enviar notificación contextual si cambió
-                let currentRisk = self.mosquitoRisk
-                if self.lastRiskLevel != currentRisk {
-                    self.lastRiskLevel = currentRisk
-                    NotificationManager.shared.sendMosquitoRiskNotification(
-                        riskLevel: currentRisk,
-                        weather: weather
-                    )
+                if let weather = weather {
+                    // ✅ Éxito: tenemos datos
+                    self.weather = weather
+                    self.hasNetworkError = false
+                    
+                    // Calcular riesgo y enviar notificación contextual si cambió
+                    let currentRisk = self.mosquitoRisk
+                    if self.lastRiskLevel != currentRisk {
+                        self.lastRiskLevel = currentRisk
+                        NotificationManager.shared.sendMosquitoRiskNotification(
+                            riskLevel: currentRisk,
+                            weather: weather
+                        )
+                    }
+                } else {
+                    // Error: la API no devolvió datos
+                    print("⚠️ Error: WeatherService devolvió nil")
+                    self.hasNetworkError = true
                 }
             }
         }
     }
     
     func retryFetch() {
+        hasNetworkError = false
         guard let coord = lastCoordinate else { return }
         fetchWeather(lat: coord.lat, lon: coord.lon)
     }
@@ -107,5 +137,9 @@ class WeatherViewModel: ObservableObject {
             return isNight ? "Cloudy night 3sec" : "cloudy 3sec"
         }
         return isNight ? "Cloudy night 3sec" : "cloudy 3sec"
+    }
+    
+    deinit {
+        fetchTimer?.invalidate()
     }
 }

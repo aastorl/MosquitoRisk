@@ -1,25 +1,36 @@
 //
 //  HeatMapViewModel.swift
-//  MosquitOFF
+//  
 //
 //  Created by Astor Ludueña  on 03/06/2025.
 //
 
 import Foundation
-import CoreLocation
+internal import CoreLocation
+import Combine
+
+// NUEVO: Estructura para mantener nombre y zona juntos
+struct NamedRiskZone {
+    let name: String
+    let zone: RiskZone
+}
 
 class HeatMapViewModel: ObservableObject {
    @Published var riskZones: [RiskZone] = []
+   @Published var orderedNames: [String] = [] // NUEVO: Publicar los nombres ordenados
    private let weatherService = WeatherService()
 
-   // Nuevo método que recibe un diccionario con puntos por parque
    func fetchRiskZones(for parks: [String: [CLLocationCoordinate2D]]) {
        let group = DispatchGroup()
-       var tempZones: [RiskZone] = []
+       var tempZones: [(index: Int, name: String, zone: RiskZone)] = []
        let lock = NSLock()
-
-       for (parkName, coordinates) in parks {
-           group.enter() // Una entrada por parque
+       
+       // Ordenar alfabéticamente y guardar el orden
+       let sortedParks = parks.sorted { $0.key < $1.key }
+       
+       for (index, parkEntry) in sortedParks.enumerated() {
+           let (parkName, coordinates) = parkEntry
+           group.enter()
            
            var risks: [MosquitoRisk.RiskLevel] = []
            let coordinateGroup = DispatchGroup()
@@ -45,16 +56,20 @@ class HeatMapViewModel: ObservableObject {
                let zone = RiskZone(coordinate: centerCoordinate, riskLevel: averageRisk)
                
                lock.lock()
-               tempZones.append(zone)
+               // Guardar con índice para mantener orden
+               tempZones.append((index: index, name: parkName, zone: zone))
                lock.unlock()
                
-               group.leave() // Salir del grupo principal
+               group.leave()
            }
        }
 
        // Cuando terminan todos los parques
        group.notify(queue: .main) {
-           self.riskZones = tempZones
+           // CRÍTICO: Reordenar por índice antes de asignar
+           let sorted = tempZones.sorted { $0.index < $1.index }
+           self.riskZones = sorted.map { $0.zone }
+           self.orderedNames = sorted.map { $0.name }
        }
    }
 

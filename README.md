@@ -1,22 +1,36 @@
-# 🦟 MosquitoRisk
+# MosquitoRisk 🦟
 
-MosquitoRisk is a SwiftUI-based iOS application that helps track mosquito sightings and assess dengue risk based on local weather conditions in Rosario, Argentina.
+[![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
+[![Platform](https://img.shields.io/badge/Platform-iOS%2017%2B-blue.svg)](https://www.apple.com/ios/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## 🌟 Features
+**MosquitoRisk** is a native iOS application designed to assess and track epidemiological risks related to mosquitoes (such as Dengue, Zika, and Chikungunya) based on real-time weather data. 
 
-- 📍 **Local weather integration**: Displays current temperature, humidity, and condition.
-- 🦠 **Mosquito/dengue risk estimation**: Assesses mosquito activity risk level based on temperature and humidity.
+The app translates complex meteorological variables into an intuitive risk scale, helping users and health authorities take preventive measures.
 
-## 🛠 Tech Stack
+## 📱 Features
 
-- **Language**: Swift
-- **Framework**: SwiftUI
-- **Architecture**: MVVM (simple structure)
+* **Real-time Risk Assessment:** Calculates risk levels using temperature, humidity, and rainfall data.
+* **Location-based Data:** Integration with CoreLocation to provide accurate local forecasts.
+* **Interactive UI:** Clean and modern interface built entirely with SwiftUI.
+* **Data Visualization:** Clear indicators of risk factors and prevention tips.
 
-## 🚀 Future Improvements
+## 🛠 Tech Stack & Architecture
 
-- 🌐 **Firebase Firestore integration** for cloud report storage
-- 📱 **UI/UX Enhancements** with modern visuals and animations
-- 🧪 **Validation & error handling** for a more robust experience
-- 📊 **Statistics and heatmaps** to visualize report density
+* **Language:** Swift 6
+* **UI Framework:** SwiftUI
+* **Architecture:** MVVM (Model-View-ViewModel) for a clean separation of concerns and testability.
+* **Networking:** URLSession for REST API integration (OpenWeatherMap / custom epidemiological data).
+* **Concurrency:** Swift Concurrency (async/await).
+* **Dependency Management:** Swift Package Manager (SPM).
+
+## 🏗 Project Structure
+
+```text
+MosquitoRisk/
+├── Models/          # Data structures and Logic
+├── ViewModels/      # Business logic and UI state
+├── Views/           # SwiftUI View components
+├── Services/        # API Clients and Location Managers
+└── Resources/       # Assets and localizations
 

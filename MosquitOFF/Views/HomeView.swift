@@ -16,7 +16,7 @@ struct HomeView: View {
     @State private var showFallbackView = false
     @State private var showLocationDeniedView = false
     @StateObject private var networkMonitor = NetworkMonitor()
-    @State private var retryWorkItem: DispatchWorkItem?  // 👈 NUEVO: Para cancelar el timer
+    @State private var retryWorkItem: DispatchWorkItem?  // Para cancelar el timer
     
     var body: some View {
         NavigationStack {

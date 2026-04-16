@@ -25,7 +25,6 @@
 		B35997432E85FD2E009BACE3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997282E85FD2E009BACE3 /* SettingsView.swift */; };
 		B35997442E85FD2E009BACE3 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997162E85FD2E009BACE3 /* ColorTheme.swift */; };
 		B35997452E85FD2E009BACE3 /* MosquitoAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997262E85FD2E009BACE3 /* MosquitoAnimation.swift */; };
-		B35997462E85FD2E009BACE3 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997152E85FD2E009BACE3 /* ButtonStyles.swift */; };
 		B35997472E85FD2E009BACE3 /* IntroSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997222E85FD2E009BACE3 /* IntroSheetView.swift */; };
 		B35997482E85FD2E009BACE3 /* MosquitOFF.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997302E85FD2E009BACE3 /* MosquitOFF.swift */; };
 		B35997492E85FD2E009BACE3 /* HeatMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35997202E85FD2E009BACE3 /* HeatMapView.swift */; };
@@ -76,7 +75,6 @@
 		B35997102E85FD2E009BACE3 /* RiskZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskZone.swift; sourceTree = "<group>"; };
 		B35997112E85FD2E009BACE3 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		B35997132E85FD2E009BACE3 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
-		B35997152E85FD2E009BACE3 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		B35997162E85FD2E009BACE3 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		B35997172E85FD2E009BACE3 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		B35997182E85FD2E009BACE3 /* MosquitoRisk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoRisk.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 		B359971B2E85FD2E009BACE3 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				B35997152E85FD2E009BACE3 /* ButtonStyles.swift */,
 				B35997162E85FD2E009BACE3 /* ColorTheme.swift */,
 				B35997172E85FD2E009BACE3 /* LocationManager.swift */,
 				B35997182E85FD2E009BACE3 /* MosquitoRisk.swift */,
@@ -414,7 +411,6 @@
 				B35997432E85FD2E009BACE3 /* SettingsView.swift in Sources */,
 				B35997442E85FD2E009BACE3 /* ColorTheme.swift in Sources */,
 				B35997452E85FD2E009BACE3 /* MosquitoAnimation.swift in Sources */,
-				B35997462E85FD2E009BACE3 /* ButtonStyles.swift in Sources */,
 				B35997472E85FD2E009BACE3 /* IntroSheetView.swift in Sources */,
 				B35997482E85FD2E009BACE3 /* MosquitOFF.swift in Sources */,
 				B35997492E85FD2E009BACE3 /* HeatMapView.swift in Sources */,

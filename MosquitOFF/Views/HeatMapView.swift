@@ -8,12 +8,6 @@
 import SwiftUI
 import MapKit
 
-struct HeatMapZone {
-    let name: String
-    let coordinates: [CLLocationCoordinate2D]
-    let radius: CLLocationDistance
-}
-
 struct HeatMapView: View {
     @StateObject private var viewModel = HeatMapViewModel()
     @StateObject private var locationManager = LocationManager()
@@ -173,7 +167,6 @@ struct HeatMapView: View {
 #Preview {
     HeatMapView()
 }
-
 
 
 

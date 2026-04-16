@@ -7,7 +7,6 @@ final class NotificationManager {
     // MARK: - Propiedades para throttling
     private var lastRiskLevel: MosquitoRisk.RiskLevel?
     private var lastNotificationTime: Date?
-    private var lastLogTime: Date?
     
     private init() {}
 
@@ -154,41 +153,7 @@ final class NotificationManager {
         print("Todas las notificaciones eliminadas")
     }
     
-    // MARK: - Métodos para controlar desde la UI
-    
-    func enableNotifications() {
-        UserDefaults.standard.set(true, forKey: "notificationsEnabled")
-        print("Notificaciones habilitadas por el usuario")
-    }
-    
-    func disableNotifications() {
-        UserDefaults.standard.set(false, forKey: "notificationsEnabled")
-        removeAllNotifications()
-        print("Notificaciones deshabilitadas por el usuario")
-    }
-    
-    func areNotificationsEnabledInApp() -> Bool {
-        return UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? true
-    }
-    
-    // MARK: - Reset para debugging
-    func resetThrottling() {
-        lastRiskLevel = nil
-        lastNotificationTime = nil
-        lastLogTime = nil
-        print("Throttling reseteado")
-    }
-    
-    // MARK: - Verificar estado de permisos del sistema
-    func checkSystemPermissionStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            DispatchQueue.main.async {
-                completion(settings.authorizationStatus)
-            }
-        }
-    }
 }
-
 
 
 

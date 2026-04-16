@@ -7,6 +7,8 @@
 
 import XCTest
 import Combine
+import SwiftUI
+import CoreLocation
 @testable import MosquitOFF
 
 final class WeatherViewModelTest: XCTestCase {

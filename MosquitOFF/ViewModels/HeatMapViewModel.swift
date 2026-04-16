@@ -9,12 +9,6 @@ import Foundation
 internal import CoreLocation
 import Combine
 
-// NUEVO: Estructura para mantener nombre y zona juntos
-struct NamedRiskZone {
-    let name: String
-    let zone: RiskZone
-}
-
 class HeatMapViewModel: ObservableObject {
    @Published var riskZones: [RiskZone] = []
    @Published var orderedNames: [String] = [] // NUEVO: Publicar los nombres ordenados
@@ -101,7 +95,6 @@ private extension MosquitoRisk.RiskLevel {
        }
    }
 }
-
 
 
 

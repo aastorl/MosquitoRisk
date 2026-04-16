@@ -11,7 +11,7 @@ The app translates complex meteorological variables into an intuitive risk scale
 ## 📱 Features
 
 * **Real-time Risk Assessment:** Calculates risk levels using temperature, humidity, and rainfall data.
-* **Location-based Data:** Integration with CoreLocation to provide accurate local forecasts.
+* **Location-based Data:** Integration with CoreLocation to provide accurate local forecasts in Rosario, Argentina.
 * **Interactive UI:** Clean and modern interface built entirely with SwiftUI.
 * **Data Visualization:** Clear indicators of risk factors and prevention tips.
 

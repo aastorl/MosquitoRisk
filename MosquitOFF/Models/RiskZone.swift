@@ -13,4 +13,6 @@ struct RiskZone: Identifiable {
     let id = UUID()
     let coordinate: CLLocationCoordinate2D
     let riskLevel: MosquitoRisk.RiskLevel
+    let name: String
+    let weather: WeatherData?
 }

@@ -14,6 +14,7 @@ class WeatherViewModel: ObservableObject {
     @Published var weather: WeatherData?
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var hasNetworkError: Bool = false  // NUEVO: Estado de error de red
+    @Published private(set) var currentCoordinate: CLLocationCoordinate2D?
     
     private let weatherService = WeatherService()
     private var locationManager = LocationManager()
@@ -21,6 +22,9 @@ class WeatherViewModel: ObservableObject {
     private var lastCoordinate: (lat: Double, lon: Double)?
     private var lastRiskLevel: MosquitoRisk.RiskLevel?
     private var fetchTimer: Timer?  // NUEVO: Timer para timeout
+    
+    private let rosarioCenter = CLLocation(latitude: -32.944162, longitude: -60.650539)
+    private let rosarioCoverageRadiusMeters: CLLocationDistance = 35_000
     
     init() {
         // Solicitar permisos de notificaciones al inicializar
@@ -45,6 +49,7 @@ class WeatherViewModel: ObservableObject {
             .sink { [weak self] coords in
                 guard let self = self else { return }
                 self.lastCoordinate = coords
+                self.currentCoordinate = CLLocationCoordinate2D(latitude: coords.lat, longitude: coords.lon)
                 self.fetchWeather(lat: coords.lat, lon: coords.lon)
             }
             .store(in: &cancellables)
@@ -113,6 +118,16 @@ class WeatherViewModel: ObservableObject {
         case .medium: return .orange
         case .low: return .green
         }
+    }
+    
+    var isOutsideRosarioArea: Bool {
+        guard let currentCoordinate else { return false }
+        let userLocation = CLLocation(
+            latitude: currentCoordinate.latitude,
+            longitude: currentCoordinate.longitude
+        )
+        let distance = userLocation.distance(from: rosarioCenter)
+        return distance > rosarioCoverageRadiusMeters
     }
     
     private func isNightTime() -> Bool {

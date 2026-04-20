@@ -14,6 +14,7 @@ struct HeatMapView: View {
     @State private var shouldCenterMap = false
     @State private var showRiskInfo = false
     @State private var showLocationAlert = false
+    @State private var selectedZone: RiskZone? = nil   // zona tapeada en el mapa
 
     // Coordenadas del centro de Rosario, Santa Fe, Argentina
     private let rosarioCenter = CLLocationCoordinate2D(latitude: -32.9442, longitude: -60.6505)
@@ -96,8 +97,10 @@ struct HeatMapView: View {
                     riskLevels: viewModel.riskZones.map { $0.riskLevel },
                     center: rosarioCenter,
                     userLocation: locationManager.location,
-                    locationNames: viewModel.orderedNames, // Usar nombres ordenados del ViewModel
-                    shouldCenterMap: $shouldCenterMap
+                    locationNames: viewModel.orderedNames,
+                    riskZones: viewModel.riskZones,
+                    shouldCenterMap: $shouldCenterMap,
+                    selectedZone: $selectedZone
                 )
                 .edgesIgnoringSafeArea(.all)
 
@@ -144,6 +147,9 @@ struct HeatMapView: View {
             }
             .sheet(isPresented: $showRiskInfo) {
                 HeatMapInfoSheet()
+            }
+            .sheet(item: $selectedZone) { zone in
+                ZoneDetailSheet(zone: zone)
             }
             .alert("Ubicación no disponible", isPresented: $showLocationAlert) {
                 Button("OK", role: .cancel) { }

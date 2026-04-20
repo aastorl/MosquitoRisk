@@ -22,16 +22,15 @@ struct RiskInfoSheetView: View {
             .ignoresSafeArea(.all)
             
             ScrollView {
-                VStack(spacing: 45) {
-                    Spacer()
+                VStack(spacing: 24) {
                     Text("¿Cómo se calcula el riesgo?")
                         .font(.title2)
                         .bold()
                         .multilineTextAlignment(.center)
-                        .padding(.top, 5)
-                        .foregroundColor(.white) // fuerza el color blanco
+                        .padding(.top, 48)   // ← bajá todo subiendo este valor
+                        .foregroundColor(.white)
                     
-                        VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 12) {
                         Text("Estimamos la presencia de mosquitos usando:")
                             .font(.body)
 
@@ -51,13 +50,15 @@ struct RiskInfoSheetView: View {
                     .background(.ultraThinMaterial)
                     .cornerRadius(16)
 
-                    // Animación Lottie más abajo
+                    // Animación Lottie
+                    // scaleEffect → tamaño | padding(.top) → distancia del card de arriba
                     LottieView(animationName: "mosquito-risk")
-                        .frame(height: 220)
-                        .padding(.bottom, 8)
+                        .frame(height: 120)
+                        .scaleEffect(2.0)
+                        .padding(.top, 65)    // ← distancia del card de texto
+                        .padding(.bottom, 48) // espacio final
                 }
                 .padding(.horizontal)
-                .padding(.bottom)
             }
         }
     }

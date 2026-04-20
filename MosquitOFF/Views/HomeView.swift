@@ -17,6 +17,9 @@ struct HomeView: View {
     @State private var showLocationDeniedView = false
     @StateObject private var networkMonitor = NetworkMonitor()
     @State private var retryWorkItem: DispatchWorkItem?  // Para cancelar el timer
+    @State private var showOutsideRosarioAlert = false
+    @State private var activeWeatherAlert: WeatherInfoAlert? = nil
+    @State private var showInfoPrevSheet = false
     
     var body: some View {
         NavigationStack {
@@ -197,159 +200,130 @@ struct HomeView: View {
                                 .transition(.opacity)
                         }
                         
-                        VStack(spacing: 25) {
+                        VStack(spacing: 0) {
+                            // ── Título ──────────────────────────────────────
                             Text("MosquitoRisk")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)
-                                .padding(.top, 50)
                                 .shadow(radius: 3)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.top, geo.size.height * 0.07)
+                                .padding(.bottom, geo.size.height * 0.10)  // ← acerca riesgo al título 
                             
-                            Spacer()
-                            
-                            VStack {
-                                if let weather = WViewModel.weather {
-                                    VStack(spacing: 8) {
-                                        HStack(spacing: 6) {
-                                            Text("Riesgo de Mosquitos en tu Ubicación")
-                                                .foregroundColor(.white.opacity(0.8))
-                                                .font(.headline)
-                                                .shadow(radius: 3)
-                                            
-                                            Button {
-                                                showRiskInfo = true
-                                            } label: {
-                                                Image(systemName: "info.circle")
-                                                    .font(.caption)
-                                                    .foregroundColor(.white.opacity(0.7))
-                                            }
-                                            .buttonStyle(.plain)
-                                        }
+                            // ── Sección de riesgo (cerca del título) ─────────
+                                if let _ = WViewModel.weather {
+                                    VStack(spacing: 6) {
+                                        Text("Riesgo de Mosquitos en tu Ubicación")
+                                            .foregroundColor(.white.opacity(0.8))
+                                            .font(.headline)
+                                            .shadow(radius: 3)
                                         
-                                        Text(WViewModel.mosquitoRisk.rawValue)
-                                            .font(.system(size: 64, weight: .thin))
-                                            .foregroundColor(.white)
-                                            .shadow(radius: 5)
+                                        HStack(alignment: .center, spacing: 10) {
+                                            Text(WViewModel.mosquitoRisk.rawValue)
+                                                .font(.system(size: 64, weight: .thin))
+                                                .foregroundColor(.white)
+                                                .shadow(radius: 5)
+                                            
+                                            if WViewModel.isOutsideRosarioArea {
+                                                Button {
+                                                    showOutsideRosarioAlert = true
+                                                } label: {
+                                                    Image(systemName: "exclamationmark.triangle.fill")
+                                                        .font(.title2)
+                                                        .foregroundColor(.yellow)
+                                                        .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
+                                                }
+                                                .buttonStyle(.plain)
+                                            }
+                                        }
+                                        .alert("Fuera del área de Rosario", isPresented: $showOutsideRosarioAlert) {
+                                            Button("Entendido", role: .cancel) { }
+                                        } message: {
+                                            Text("Estás fuera del área de Rosario. El riesgo se calcula para tu ubicación actual, pero el mapa de calor muestra zonas de la ciudad de Rosario.")
+                                        }
                                     }
-                                    .padding(.top, -20)
-                                    
+                                }
+
+                            
+                            // Un Spacer para empujar el Título y el Riesgo hacia arriba
+                            Spacer()
+                        }
+                        .frame(width: geo.size.width)
+                        
+                        // ── CAPA INFERIOR (Independiente: Celdas y botones) ──
+                        VStack(spacing: 0) {
+                            
+                            // 👇 AJUSTA ESTE VALOR para mover las celdas y botones libremente
+                            // Este número (0.45) es el % de pantalla desde arriba (45%).
+                            // Como esto está en otra capa (VStack), moverlo NO afecta al título y al riesgo 🚀
+                            Spacer(minLength: 0)
+                                .frame(height: geo.size.height * 0.45)
+                            
+                            // ── Grid + mapa (anclados abajo) ─────────────────
+                            VStack(spacing: geo.size.height * 0.022) {
+                                if let weather = WViewModel.weather {
+                                    // ── Celdas clima (fila horizontal) ──
                                     LazyVGrid(columns: [GridItem(), GridItem()], spacing: 8) {
-                                        WeatherInfoCard(icon: "thermometer", label: "Temperatura", value: "\(Int(weather.temperature))°")
-                                        WeatherInfoCard(icon: "drop.fill", label: "Humedad", value: "\(Int(weather.humidity))%")
-                                        WeatherInfoCard(icon: "cloud.rain.fill", label: "Lluvia", value: "\(String(format: "%.1f", weather.precipitation)) mm")
-                                        WeatherInfoCard(icon: "wind", label: "Viento", value: "\(String(format: "%.1f", weather.windSpeed)) km/h")
+                                        Button { activeWeatherAlert = .temperatura } label: {
+                                            CompactWeatherCard(icon: "thermometer", value: "\(Int(weather.temperature))°", label: "Temperatura")
+                                        }
+                                        .buttonStyle(.plain)
+                                        Button { activeWeatherAlert = .humedad } label: {
+                                            CompactWeatherCard(icon: "drop.fill", value: "\(Int(weather.humidity))%", label: "Humedad")
+                                        }
+                                        .buttonStyle(.plain)
+                                        Button { activeWeatherAlert = .lluvia } label: {
+                                            CompactWeatherCard(icon: "cloud.rain.fill", value: String(format: "%.0f mm", weather.precipitation), label: "Lluvia")
+                                        }
+                                        .buttonStyle(.plain)
+                                        Button { activeWeatherAlert = .viento } label: {
+                                            CompactWeatherCard(icon: "wind", value: String(format: "%.0f km/h", weather.windSpeed), label: "Viento")
+                                        }
+                                        .buttonStyle(.plain)
                                     }
                                     .padding(.horizontal)
-                                    
-                                    // BOTÓN DE MAPA
-                                    NavigationLink(destination: HeatMapView()) {
-                                        ZStack {
-                                            MiniHeatMapPreview()
-                                                .frame(height: 200)
-                                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                                .opacity(0.1)
-                                            
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .fill(.ultraThinMaterial)
-                                                .opacity(0.85)
-                                            
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .fill(
-                                                    LinearGradient(
-                                                        gradient: Gradient(colors: [
-                                                            Color.black.opacity(0.3),
-                                                            Color.clear,
-                                                            Color.black.opacity(0.4)
-                                                        ]),
-                                                        startPoint: .top,
-                                                        endPoint: .bottom
-                                                    )
-                                                )
-                                            
-                                            VStack(spacing: 20) {
-                                                ZStack {
-                                                    Circle()
-                                                        .fill(.regularMaterial)
-                                                        .frame(width: 56, height: 56)
-                                                    
-                                                    Circle()
-                                                        .fill(
-                                                            LinearGradient(
-                                                                gradient: Gradient(colors: [
-                                                                    Color.white.opacity(0.2),
-                                                                    Color.clear
-                                                                ]),
-                                                                startPoint: .topLeading,
-                                                                endPoint: .bottomTrailing
-                                                            )
-                                                        )
-                                                        .frame(width: 56, height: 56)
-                                                    
-                                                    Image(systemName: "map.fill")
-                                                        .font(.system(size: 22, weight: .semibold))
-                                                        .foregroundColor(.white)
-                                                        .shadow(color: .black.opacity(0.5), radius: 2, x: 0, y: 1)
-                                                }
-                                                
-                                                VStack(spacing: 12) {
-                                                    VStack(spacing: 4) {
-                                                        Text("Mapa de Riesgo")
-                                                            .font(.title3)
-                                                            .fontWeight(.bold)
-                                                            .foregroundColor(.white)
-                                                            .shadow(color: .black.opacity(0.6), radius: 2, x: 0, y: 1)
-                                                        
-                                                        Text("Parques y zonas de Rosario")
-                                                            .font(.subheadline)
-                                                            .foregroundColor(.white.opacity(0.9))
-                                                            .shadow(color: .black.opacity(0.5), radius: 1, x: 0, y: 1)
-                                                    }
-                                                    
-                                                    HStack(spacing: 8) {
-                                                        Text("Explorar mapa")
-                                                            .font(.callout)
-                                                            .fontWeight(.medium)
-                                                            .foregroundColor(.white)
-                                                        
-                                                        Image(systemName: "arrow.right")
-                                                            .font(.callout)
-                                                            .fontWeight(.medium)
-                                                            .foregroundColor(.white)
-                                                    }
-                                                }
-                                            }
-                                            .padding(.vertical, 24)
-                                        }
-                                        .frame(height: 200)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .stroke(
-                                                    LinearGradient(
-                                                        gradient: Gradient(colors: [
-                                                            Color.white.opacity(0.3),
-                                                            Color.white.opacity(0.1)
-                                                        ]),
-                                                        startPoint: .topLeading,
-                                                        endPoint: .bottomTrailing
-                                                    ),
-                                                    lineWidth: 1
-                                                )
+                                    .alert(item: $activeWeatherAlert) { info in
+                                        Alert(
+                                            title: Text(info.title),
+                                            message: Text(info.message),
+                                            dismissButton: .default(Text("Entendido"))
                                         )
-                                        .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
-                                        .padding(.horizontal)
+                                    }
+                                    
+                                    // ── Botón Mapa ──
+                                    NavigationLink(destination: HeatMapView()) {
+                                        GlassCardButton(
+                                            icon: "map",
+                                            title: "Mapa de Riesgo",
+                                            subtitle: "Riesgo en Rosario",
+                                            actionLabel: "Explorar"
+                                        )
                                     }
                                     .buttonStyle(.plain)
-                                    .padding(.top, 8)
+                                    .padding(.horizontal, 16)
+                                    
+                                    // ── Botón Info & Prevención (unificado) ──
+                                    Button { showInfoPrevSheet = true } label: {
+                                        GlassCardButton(
+                                            icon: "heart",
+                                            title: "Info y Prevención",
+                                            subtitle: "Aprende y protégete",
+                                            actionLabel: "Ver más"
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
+                                    .padding(.horizontal, 16)
+                                    
                                 } else {
                                     EmptyView()
                                 }
                             }
                             
+                            // Este Spacer ahora es flexible para empujar el contenido hacia arriba
                             Spacer()
                         }
                         .frame(width: geo.size.width)
-                        .contentShape(Rectangle())
-                        .allowsHitTesting(true)
                     }
                 }
                 .onAppear {
@@ -414,8 +388,8 @@ struct HomeView: View {
             }
             .interactiveDismissDisabled(true)
         }
-        .sheet(isPresented: $showRiskInfo) {
-            RiskInfoSheetView()
+        .sheet(isPresented: $showInfoPrevSheet) {
+            InfoPrevSheet()
         }
     }
     
@@ -505,6 +479,175 @@ struct WeatherInfoCard: View {
     }
 }
 
+// MARK: - Celda compacta clima (HStack row)
+struct CompactWeatherCard: View {
+    let icon: String
+    let value: String
+    let label: String  // 👈 nuevo parámetro
+
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack(spacing: 10) {  // 👈 icono + valor en horizontal
+                Image(systemName: icon)
+                    .font(.system(size: 22, weight: .medium))  // 👈 más grande
+                    .foregroundColor(.white.opacity(0.85))
+
+                Text(value)
+                    .font(.system(size: 20, weight: .bold))  // 👈 más grande
+                    .foregroundColor(.white)
+                    .minimumScaleFactor(0.7)
+                    .lineLimit(1)
+            }
+
+            Text(label)  // 👈 label debajo
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(.white.opacity(0.6))
+                .lineLimit(1)
+        }
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .frame(height: 90)
+        .background(
+            ZStack {
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(.ultraThinMaterial)
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(LinearGradient(
+                        colors: [Color.white.opacity(0.12), Color.white.opacity(0.04)],
+                        startPoint: .topLeading, endPoint: .bottomTrailing
+                    ))
+            }
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.15), radius: 6, x: 0, y: 3)
+    }
+}
+// MARK: - Reutilizable: tarjeta horizontal glassmorphism
+struct GlassCardButton: View {
+    let icon: String
+    let title: String
+    let subtitle: String
+    let actionLabel: String
+
+    var body: some View {
+        HStack(spacing: 16) {
+            // Ícono circular
+            ZStack {
+                Circle()
+                    .fill(.regularMaterial)
+                    .frame(width: 50, height: 50)
+
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.white.opacity(0.2), Color.clear],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 50, height: 50)
+
+                Image(systemName: icon)
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(.white)
+                    .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 1)
+            }
+
+            // Texto
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title)
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .shadow(color: .black.opacity(0.5), radius: 1, x: 0, y: 1)
+
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.8))
+                    .shadow(color: .black.opacity(0.4), radius: 1, x: 0, y: 1)
+                    .lineLimit(1)
+            }
+
+            Spacer()
+
+            // Acción + flecha
+            HStack(spacing: 4) {
+                Text(actionLabel)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(.white.opacity(0.9))
+
+                Image(systemName: "arrow.right")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white.opacity(0.9))
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .background(
+            ZStack {
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(.ultraThinMaterial)
+                    .opacity(0.85)
+
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.white.opacity(0.12), Color.white.opacity(0.04)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            }
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(
+                    LinearGradient(
+                        colors: [Color.white.opacity(0.3), Color.white.opacity(0.1)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
+        .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
+    }
+}
+
+
+// MARK: - Alert model para las celdas de clima
+enum WeatherInfoAlert: String, Identifiable {
+    case temperatura, humedad, lluvia, viento
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .temperatura: return "Temperatura"
+        case .humedad:     return "Humedad"
+        case .lluvia:      return "Lluvia"
+        case .viento:      return "Viento"
+        }
+    }
+
+    var message: String {
+        switch self {
+        case .temperatura:
+            return "Los mosquitos son más activos entre 20°C y 30°C. Por debajo de 15°C su actividad cae drásticamente, y por encima de 35°C también se reduce. El rango ideal para su reproducción es entre 25°C y 28°C."
+        case .humedad:
+            return "La humedad alta (por encima del 60%) favorece la supervivencia de los mosquitos y acelera su ciclo de vida. Con humedad muy baja, los huevos se deshidratan y las larvas no prosperan."
+        case .lluvia:
+            return "Las lluvias crean charcos y recipientes con agua estancada, que son los criaderos preferidos del Aedes aegypti. Incluso lluvias leves acumuladas durante varios días elevan el riesgo significativamente."
+        case .viento:
+            return "El viento dificulta el vuelo de los mosquitos. Con vientos superiores a 10 km/h su actividad se reduce, y por encima de 20 km/h prácticamente no vuelan. Los días calmos y húmedos son los de mayor riesgo."
+        }
+    }
+}
 
 
 

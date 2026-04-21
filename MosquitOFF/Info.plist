@@ -5,7 +5,9 @@
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>
-		<string>launchscreen</string>
+		<string>launchicon</string>
+		<key>UIColorName</key>
+		<string>LaunchBackgroundColor</string>
 		<key>UIImageRespectsSafeAreaInsets</key>
 		<true/>
 	</dict>

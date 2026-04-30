@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B3B7F7D5CD6C4ED3819F606C /* ZoneDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D541C7DAAA400E8ED04E02 /* ZoneDetailSheet.swift */; };
-		74BF6D633142446FB78248FE /* InfoPrevSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3606944198664E1EA06BFB1A /* InfoPrevSheet.swift */; };
 		08222BC9D5F445DDB6905D49 /* PreventionGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B716EDA852F4016B6C23F97 /* PreventionGuideView.swift */; };
+		74BF6D633142446FB78248FE /* InfoPrevSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3606944198664E1EA06BFB1A /* InfoPrevSheet.swift */; };
 		77F4DA1BE8A248D9BEFD5804 /* boy-fever.json in Resources */ = {isa = PBXBuildFile; fileRef = B5ED57303B994FB7B3C2161F /* boy-fever.json */; };
 		B353D5B72F91769800D28F3B /* mosquito-risk.json in Resources */ = {isa = PBXBuildFile; fileRef = B353D5B62F91769800D28F3B /* mosquito-risk.json */; };
 		B35997332E85FD2E009BACE3 /* sunny 3sec.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B359970E2E85FD2E009BACE3 /* sunny 3sec.mp4 */; };
@@ -48,6 +47,7 @@
 		B359975B2E85FD7D009BACE3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B359975A2E85FD7D009BACE3 /* README.md */; };
 		B35997602E85FE54009BACE3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B359975F2E85FE54009BACE3 /* Lottie */; };
 		B3B021A42E987F41005CB13B /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = B3B021A32E987F41005CB13B /* AppIcon.icon */; };
+		B3B7F7D5CD6C4ED3819F606C /* ZoneDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D541C7DAAA400E8ED04E02 /* ZoneDetailSheet.swift */; };
 		BAC174C906DB41A882001D98 /* boy-vomit.json in Resources */ = {isa = PBXBuildFile; fileRef = B5E424CDE7714FA8AED60677 /* boy-vomit.json */; };
 		F7D539A76F5948B586A4DAE6 /* boy-spots-face.json in Resources */ = {isa = PBXBuildFile; fileRef = 2D418EF014754E0F925B1336 /* boy-spots-face.json */; };
 /* End PBXBuildFile section */
@@ -70,8 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2D418EF014754E0F925B1336 /* boy-spots-face.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "boy-spots-face.json"; sourceTree = "<group>"; };
 		24D541C7DAAA400E8ED04E02 /* ZoneDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneDetailSheet.swift; sourceTree = "<group>"; };
+		2D418EF014754E0F925B1336 /* boy-spots-face.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "boy-spots-face.json"; sourceTree = "<group>"; };
 		3606944198664E1EA06BFB1A /* InfoPrevSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPrevSheet.swift; sourceTree = "<group>"; };
 		4B716EDA852F4016B6C23F97 /* PreventionGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreventionGuideView.swift; sourceTree = "<group>"; };
 		B353D5B62F91769800D28F3B /* mosquito-risk.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mosquito-risk.json"; sourceTree = "<group>"; };
@@ -213,8 +213,8 @@
 				B35997252E85FD2E009BACE3 /* MiniHeatMapPreview.swift */,
 				B35997262E85FD2E009BACE3 /* MosquitoAnimation.swift */,
 				24D541C7DAAA400E8ED04E02 /* ZoneDetailSheet.swift */,
-						3606944198664E1EA06BFB1A /* InfoPrevSheet.swift */,
-						4B716EDA852F4016B6C23F97 /* PreventionGuideView.swift */,
+				3606944198664E1EA06BFB1A /* InfoPrevSheet.swift */,
+				4B716EDA852F4016B6C23F97 /* PreventionGuideView.swift */,
 				B35997272E85FD2E009BACE3 /* RiskInfoSheetView.swift */,
 				B35997282E85FD2E009BACE3 /* SettingsView.swift */,
 				B35997292E85FD2E009BACE3 /* StaticHeatMapView.swift */,
@@ -426,9 +426,9 @@
 				B359973D2E85FD2E009BACE3 /* WeatherViewModel.swift in Sources */,
 				B359973E2E85FD2E009BACE3 /* StaticHeatMapView.swift in Sources */,
 				B359973F2E85FD2E009BACE3 /* HomeView.swift in Sources */,
-		B3B7F7D5CD6C4ED3819F606C /* ZoneDetailSheet.swift in Sources */,
-						74BF6D633142446FB78248FE /* InfoPrevSheet.swift in Sources */,
-						08222BC9D5F445DDB6905D49 /* PreventionGuideView.swift in Sources */,
+				B3B7F7D5CD6C4ED3819F606C /* ZoneDetailSheet.swift in Sources */,
+				74BF6D633142446FB78248FE /* InfoPrevSheet.swift in Sources */,
+				08222BC9D5F445DDB6905D49 /* PreventionGuideView.swift in Sources */,
 				B35997402E85FD2E009BACE3 /* RiskInfoSheetView.swift in Sources */,
 				B35997412E85FD2E009BACE3 /* RiskZone.swift in Sources */,
 				B35997422E85FD2E009BACE3 /* WeatherData.swift in Sources */,
@@ -611,7 +611,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R47LKKYLZ9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -627,7 +627,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.astorluduena.MosquitOFF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -650,7 +650,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R47LKKYLZ9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -666,7 +666,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.astorluduena.MosquitOFF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
